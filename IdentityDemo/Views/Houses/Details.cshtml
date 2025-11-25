@@ -1,0 +1,117 @@
+﻿@model TenantsManagementApp.Models.House
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<style>
+    body {
+        background-color: #f5f6f5;
+    }
+
+    .container {
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    hr {
+        border-top: 1px solid #dee2e6;
+        margin: 1.5rem 0;
+    }
+
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .card-body {
+        padding: 1.75rem;
+    }
+
+    .dl-horizontal dt {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .dl-horizontal dd {
+        font-size: 0.85rem;
+        color: #333;
+        margin-bottom: 1.25rem;
+    }
+
+    .action-links a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-right: 0.75rem;
+        transition: color 0.2s ease;
+    }
+
+    .action-links a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .action-links a:last-child {
+        margin-right: 0;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h1>House Details</h1>
+                    <h4>@Html.DisplayNameFor(model => model)</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd>@Html.DisplayFor(model => model.Name)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Location)</dt>
+                        <dd>@Html.DisplayFor(model => model.Location)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Model)</dt>
+                        <dd>@Html.DisplayFor(model => model.Model)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+                        <dd>@Html.DisplayFor(model => model.Price)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Status)</dt>
+                        <dd>@Html.DisplayFor(model => model.Status)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.IsActive)</dt>
+                        <dd>@Html.DisplayFor(model => model.IsActive)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Landlord)</dt>
+                        <dd>@Html.DisplayFor(model => model.Landlord.FirstName)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                        <dd>@Html.DisplayFor(model => model.CreatedAt)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.UpdatedAt)</dt>
+                        <dd>@Html.DisplayFor(model => model.UpdatedAt)</dd>
+                    </dl>
+                    <div class="action-links mt-4">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+                        <a asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

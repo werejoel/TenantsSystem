@@ -1,0 +1,895 @@
+@{
+    ViewData["Title"] = "Landlord Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --bg-light: #f9fafb;
+        --border-color: #e5e7eb;
+        --text-primary: #111827;
+        --text-secondary: #6b7280;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+        --border-radius: 12px;
+        --spacing-sm: clamp(0.5rem, 1vw, 0.75rem);
+        --spacing-md: clamp(0.75rem, 1.5vw, 1rem);
+        --spacing-lg: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: var(--bg-light);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.5;
+    }
+
+    .dashboard-container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+        width: 100%;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .dashboard-title {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+
+    .dashboard-subtitle {
+        font-size: clamp(0.75rem, 2vw, 0.875rem);
+        color: var(--text-secondary);
+    }
+
+    .profile-section {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        background: white;
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        min-width: 0;
+    }
+
+    .profile-avatar {
+        width: clamp(32px, 5vw, 40px);
+        height: clamp(32px, 5vw, 40px);
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: clamp(0.875rem, 2vw, 1rem);
+    }
+
+    .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 25vw, 220px), 1fr));
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .stat-card {
+        background: white;
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+    }
+
+    .stat-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-4px);
+    }
+
+    .stat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .stat-icon {
+        width: clamp(32px, 5vw, 40px);
+        height: clamp(32px, 5vw, 40px);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+    }
+
+    .stat-icon.primary { background: #e0f2fe; color: var(--primary-color); }
+    .stat-icon.success { background: #d1fae5; color: var(--success-color); }
+    .stat-icon.warning { background: #fef3c7; color: var(--warning-color); }
+    .stat-icon.danger { background: #fee2e2; color: var(--danger-color); }
+
+    .stat-label {
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        font-size: clamp(1.5rem, 3vw, 1.75rem);
+        font-weight: 700;
+        margin: 0.5rem 0;
+    }
+
+    .stat-change {
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .stat-change.positive { color: var(--success-color); }
+    .stat-change.negative { color: var(--danger-color); }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(clamp(300px, 30vw, 400px), 1fr));
+        gap: var(--spacing-md);
+    }
+
+    .card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .card-header {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .card-title {
+        font-size: clamp(0.875rem, 2vw, 1rem);
+        font-weight: 600;
+    }
+
+    .card-body {
+        padding: var(--spacing-md);
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+        background: var(--bg-light);
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .data-table th {
+        text-align: left;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .data-table td {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-table tr:hover {
+        background: var(--bg-light);
+    }
+
+    .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        font-weight: 600;
+    }
+
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+
+    .progress-bar {
+        height: 6px;
+        background: var(--border-color);
+        border-radius: 9999px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: var(--spacing-lg);
+        color: var(--text-secondary);
+    }
+
+    .empty-state-icon {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        margin-bottom: var(--spacing-sm);
+        opacity: 0.6;
+    }
+
+    .loading {
+        display: inline-block;
+        width: clamp(20px, 3vw, 24px);
+        height: clamp(20px, 3vw, 24px);
+        border-radius: 50%;
+        background: linear-gradient(45deg, var(--primary-color), transparent);
+        transform: rotate(45deg);
+    }
+
+    .alert-item {
+        padding: var(--spacing-sm);
+        border-radius: 8px;
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+
+    .alert-item.warning { background: #fef3c7; border-left: 4px solid var(--warning-color); }
+    .alert-item.danger { background: #fee2e2; border-left: 4px solid var(--danger-color); }
+    .alert-item.info { background: #e0f2fe; border-left: 4px solid var(--primary-color); }
+
+    .activity-item {
+        display: flex;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-icon {
+        width: clamp(30px, 4vw, 36px);
+        height: clamp(30px, 4vw, 36px);
+        border-radius: 50%;
+        background: var(--bg-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .activity-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        font-size: clamp(0.875rem, 2vw, 1rem);
+    }
+
+    .activity-meta {
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        color: var(--text-secondary);
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- Header -->
+    <header class="dashboard-header" role="banner">
+        <div>
+            <h1 class="dashboard-title">Landlord Dashboard</h1>
+            <p class="dashboard-subtitle">Manage your properties and track performance</p>
+        </div>
+        <div class="profile-section" role="region" aria-label="User Profile">
+            <div class="profile-avatar" id="profileAvatar" aria-hidden="true">LL</div>
+            <div>
+                <div style="font-weight: 600;" id="profileName">Loading...</div>
+                <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);" id="profileEmail"></div>
+            </div>
+        </div>
+    </header>
+    <!-- Debug area for fetch errors -->
+    <div id="debugErrors" style="margin-top:0.5rem; color: var(--danger-color); font-size:0.9rem;
+                background:#fff5f5; border:1px solid #fee2e2; padding:0.5rem; border-radius:8px; display:none;
+                max-width:100%; overflow:auto;">
+        <strong>Dashboard debug:</strong>
+        <div id="debugErrorsContent"></div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <section class="stat-cards" role="region" aria-label="Key Metrics">
+        <article class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="stat-value" id="totalRevenue">UGX 0</div>
+                </div>
+                <div class="stat-icon success">💰</div>
+            </div>
+            <div class="stat-change positive">
+                <span>↑ <span id="revenueChange">0%</span></span>
+                <span>from last month</span>
+            </div>
+        </article>
+        <article class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <div class="stat-label">Properties</div>
+                    <div class="stat-value" id="totalProperties">0</div>
+                </div>
+                <div class="stat-icon primary">🏢</div>
+            </div>
+            <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">
+                <span id="occupiedUnits">0</span> occupied • <span id="vacantUnits">0</span> vacant
+            </div>
+        </article>
+        <article class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <div class="stat-label">Occupancy Rate</div>
+                    <div class="stat-value" id="occupancyRate">0%</div>
+                </div>
+                <div class="stat-icon warning">📊</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="occupancyProgress" style="width: 0%"></div>
+            </div>
+        </article>
+        <article class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <div class="stat-label">Outstanding Balance</div>
+                    <div class="stat-value" id="outstandingBalance">UGX 0</div>
+                </div>
+                <div class="stat-icon danger">⚠️</div>
+            </div>
+            <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">
+                <span id="overduePayments">0</span> overdue payments
+            </div>
+        </article>
+    </section>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid" role="main">
+        <!-- Recent Payments -->
+        <section class="card payments-section" aria-label="Recent Payments">
+            <div class="card-header">
+                <h2 class="card-title">Recent Payments</h2>
+                <a href="/LandlordDashboard/Payments" class="btn btn-outline">View All</a>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="data-table" id="paymentsTable">
+                        <thead>
+                            <tr>
+                                <th>Tenant</th>
+                                <th>Property</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="loading"></div>
+                                        <p>Loading payments...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alerts & Notifications -->
+        <section class="card alerts-section" aria-label="Alerts">
+            <div class="card-header">
+                <h2 class="card-title">Alerts</h2>
+            </div>
+            <div class="card-body" id="alertsContainer">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p>Loading alerts...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties Overview -->
+        <section class="card properties-section" aria-label="Properties Overview">
+            <div class="card-header">
+                <h2 class="card-title">Properties</h2>
+                <a href="/LandlordDashboard/Properties" class="btn btn-outline">View All</a>
+            </div>
+            <div class="card-body" id="propertiesContainer">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p>Loading properties...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Maintenance Requests -->
+        <section class="card maintenance-section" aria-label="Maintenance Requests">
+            <div class="card-header">
+                <h2 class="card-title">Maintenance Requests</h2>
+                <a href="/LandlordDashboard/Maintenance" class="btn btn-outline">View All</a>
+            </div>
+            <div class="card-body" id="maintenanceContainer">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p>Loading requests...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="card activity-section" aria-label="Recent Activity">
+            <div class="card-header">
+                <h2 class="card-title">Recent Activity</h2>
+            </div>
+            <div class="card-body" id="activityContainer">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p>Loading activity...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        loadDashboardData();
+    });
+
+    // Endpoint URLs (use Url.Action to keep routing correct)
+    const endpoints = {
+        profile: '@Url.Action("GetLandlordProfile", "LandlordDashboard")',
+        stats: '@Url.Action("GetDashboardStats", "LandlordDashboard")',
+        payments: '@Url.Action("GetPaymentTracking", "LandlordDashboard")',
+        properties: '@Url.Action("GetProperties", "LandlordDashboard")',
+        maintenance: '@Url.Action("GetMaintenanceRequests", "LandlordDashboard")',
+        activity: '@Url.Action("GetRecentActivity", "LandlordDashboard")',
+        alerts: '@Url.Action("GetAlerts", "LandlordDashboard")'
+    };
+
+    async function loadDashboardData() {
+        try {
+            await Promise.all([
+                loadProfile(),
+                loadStats(),
+                loadPayments(),
+                loadAlerts(),
+                loadProperties(),
+                loadMaintenance(),
+                loadActivity()
+            ]);
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            showError('Failed to load dashboard data');
+        }
+    }
+
+    async function loadProfile() {
+        try {
+            const response = await fetch(endpoints.profile, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load profile: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.profile, response.status);
+                throw new Error(err);
+            }
+            const profile = await response.json();
+            
+            $('#profileName').text(profile.fullName);
+            $('#profileEmail').text(profile.email);
+            const initials = profile.fullName.split(' ')
+                .map(n => n[0])
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
+            $('#profileAvatar').text(initials);
+        } catch (error) {
+            console.error('Error loading profile:', error);
+            $('#profileName').text('Error loading profile');
+            reportDebug(error.message || String(error), endpoints.profile);
+        }
+    }
+
+    async function loadStats() {
+        try {
+            const response = await fetch(endpoints.stats, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load stats: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.stats, response.status);
+                throw new Error(err);
+            }
+            const stats = await response.json();
+            
+            $('#totalRevenue').text(`UGX ${stats.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`);
+            $('#totalProperties').text(stats.totalProperties);
+            $('#occupiedUnits').text(stats.occupiedUnits);
+            $('#vacantUnits').text(stats.vacantUnits);
+            $('#occupancyRate').text(`${stats.occupancyRate.toFixed(1)}%`);
+            $('#occupancyProgress').css('width', `${stats.occupancyRate}%`);
+            $('#outstandingBalance').text(`UGX ${stats.outstandingBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`);
+            $('#overduePayments').text(stats.overduePayments);
+            
+            const revenueChange = stats.monthlyRevenue > 0 
+                ? ((stats.monthlyRevenue / stats.totalRevenue) * 100).toFixed(1) 
+                : 0;
+            $('#revenueChange').text(`${revenueChange}%`);
+        } catch (error) {
+            console.error('Error loading stats:', error);
+            $('#totalRevenue').text('Error');
+            reportDebug(error.message || String(error), endpoints.stats);
+        }
+    }
+
+    async function loadPayments() {
+        try {
+            const response = await fetch(endpoints.payments, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load payments: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.payments, response.status);
+                throw new Error(err);
+            }
+            const payments = await response.json();
+            const tbody = $('#paymentsTableBody');
+            tbody.empty();
+
+            if (!payments.length) {
+                tbody.append(`
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">💳</div>
+                                <p>No recent payments</p>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+                return;
+            }
+
+            payments.slice(0, 5).forEach(payment => {
+                const date = new Date(payment.paymentDate);
+                tbody.append(`
+                    <tr>
+                        <td>${escapeHtml(payment.tenantName)}</td>
+                        <td>${escapeHtml(payment.propertyName)}</td>
+                        <td style="font-weight: 600;">UGX ${payment.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                        <td>${date.toLocaleDateString()}</td>
+                        <td>${escapeHtml(payment.paymentMethod)}</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                    </tr>
+                `);
+            });
+        } catch (error) {
+            console.error('Error loading payments:', error);
+            $('#paymentsTableBody').html(`
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                                    <p style="color: var(--danger-color);">Failed to load payments — see debug panel for details</p>
+                        </div>
+                    </td>
+                </tr>
+            `);
+                    reportDebug(error.message || String(error), endpoints.payments);
+        }
+    }
+
+    async function loadAlerts() {
+        try {
+            const response = await fetch(endpoints.alerts, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load alerts: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.alerts, response.status);
+                throw new Error(err);
+            }
+            const alerts = await response.json();
+            const container = $('#alertsContainer');
+            container.empty();
+
+            if (!alerts.length) {
+                container.append(`
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✅</div>
+                        <p>No alerts at this time</p>
+                    </div>
+                `);
+                return;
+            }
+
+            alerts.forEach(alert => {
+                container.append(`
+                    <div class="alert-item ${alert.alertType.toLowerCase()}" role="alert">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 0.25rem;">${escapeHtml(alert.title)}</div>
+                            <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">${escapeHtml(alert.message)}</div>
+                        </div>
+                    </div>
+                `);
+            });
+        } catch (error) {
+            console.error('Error loading alerts:', error);
+            $('#alertsContainer').html(`
+                <div class="empty-state">
+                    <p style="color: var(--danger-color);">Failed to load alerts — see debug panel for details</p>
+                </div>
+            `);
+            reportDebug(error.message || String(error), endpoints.alerts);
+        }
+    }
+
+    async function loadProperties() {
+        try {
+            const response = await fetch(endpoints.properties, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load properties: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.properties, response.status);
+                throw new Error(err);
+            }
+            const properties = await response.json();
+            const container = $('#propertiesContainer');
+            container.empty();
+
+            if (!properties.length) {
+                container.append(`
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏢</div>
+                        <p>No properties found</p>
+                    </div>
+                `);
+                return;
+            }
+
+            properties.slice(0, 5).forEach(property => {
+                container.append(`
+                    <div style="padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <div>
+                                <div style="font-weight: 600;">${escapeHtml(property.propertyName)}</div>
+                                <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">${escapeHtml(property.address)}</div>
+                            </div>
+                            <span class="badge ${property.occupancyRate >= 80 ? 'badge-success' : 'badge-warning'}">
+                                ${property.occupancyRate.toFixed(0)}% occupied
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem; font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">
+                            <span>Revenue: UGX ${property.monthlyRevenue.toLocaleString()}</span>
+                            <span>•</span>
+                            <span>${property.occupiedUnits}/${property.totalUnits} units</span>
+                        </div>
+                    </div>
+                `);
+            });
+        } catch (error) {
+            console.error('Error loading properties:', error);
+            $('#propertiesContainer').html(`
+                <div class="empty-state">
+                    <p style="color: var(--danger-color);">Failed to load properties — see debug panel for details</p>
+                </div>
+            `);
+            reportDebug(error.message || String(error), endpoints.properties);
+        }
+    }
+
+    async function loadMaintenance() {
+        try {
+            const response = await fetch(endpoints.maintenance, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load maintenance: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.maintenance, response.status);
+                throw new Error(err);
+            }
+            const requests = await response.json();
+            const container = $('#maintenanceContainer');
+            container.empty();
+
+            if (!requests.length) {
+                container.append(`
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔧</div>
+                        <p>No maintenance requests</p>
+                    </div>
+                `);
+                return;
+            }
+
+            requests.slice(0, 5).forEach(request => {
+                const statusClass = request.status === 'Completed' ? 'badge-success' :
+                                   request.status === 'In Progress' ? 'badge-warning' : 'badge-danger';
+                const date = new Date(request.submittedDate);
+                container.append(`
+                    <div style="padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <div>
+                                <div style="font-weight: 600;">${escapeHtml(request.title)}</div>
+                                <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">
+                                    ${escapeHtml(request.tenantName)} • ${escapeHtml(request.propertyName)}
+                                </div>
+                            </div>
+                            <span class="badge ${statusClass}">${escapeHtml(request.status)}</span>
+                        </div>
+                        <div style="font-size: clamp(0.75rem, 1.5vw, 0.875rem); color: var(--text-secondary);">
+                            Submitted ${date.toLocaleDateString()}
+                        </div>
+                    </div>
+                `);
+            });
+        } catch (error) {
+            console.error('Error loading maintenance:', error);
+            $('#maintenanceContainer').html(`
+                <div class="empty-state">
+                    <p style="color: var(--danger-color);">Failed to load maintenance requests — see debug panel for details</p>
+                </div>
+            `);
+            reportDebug(error.message || String(error), endpoints.maintenance);
+        }
+    }
+
+    async function loadActivity() {
+        try {
+            const response = await fetch(endpoints.activity, { credentials: 'same-origin' });
+            if (!response.ok) {
+                const body = await response.text();
+                const err = `Failed to load activity: HTTP ${response.status} ${response.statusText} - ${body}`;
+                reportDebug(err, endpoints.activity, response.status);
+                throw new Error(err);
+            }
+            const activities = await response.json();
+            const container = $('#activityContainer');
+            container.empty();
+
+            if (!activities.length) {
+                container.append(`
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No recent activity</p>
+                    </div>
+                `);
+                return;
+            }
+
+            activities.forEach(activity => {
+                const date = new Date(activity.activityDate);
+                const icon = activity.activityType === 'Payment' ? '💰' :
+                            activity.activityType === 'Maintenance' ? '🔧' : '📄';
+                container.append(`
+                    <div class="activity-item">
+                        <div class="activity-icon">${icon}</div>
+                        <div class="activity-content">
+                            <div class="activity-title">${escapeHtml(activity.title)}</div>
+                            <div class="activity-meta">
+                                ${escapeHtml(activity.description)} • ${date.toLocaleDateString()} ${date.toLocaleTimeString()}
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        } catch (error) {
+            console.error('Error loading activity:', error);
+            $('#activityContainer').html(`
+                <div class="empty-state">
+                    <p style="color: var(--danger-color);">Failed to load activity — see debug panel for details</p>
+                </div>
+            `);
+            reportDebug(error.message || String(error), endpoints.activity);
+        }
+    }
+
+    // Report structured debug info to the top debug panel and console
+    function reportDebug(message, url, status) {
+        try {
+            console.warn('Dashboard debug:', { message, url, status });
+            const panel = document.getElementById('debugErrors');
+            const content = document.getElementById('debugErrorsContent');
+            if (!panel || !content) return;
+            panel.style.display = 'block';
+            const time = new Date().toLocaleString();
+            const node = document.createElement('div');
+            node.style.marginTop = '0.5rem';
+            node.style.padding = '0.25rem 0';
+            node.innerText = `${time} — ${message} ${url ? '\nRequest: ' + url : ''} ${status ? '\nStatus: ' + status : ''}`;
+            content.prepend(node);
+        } catch (e) {
+            console.error('Failed to write debug panel', e);
+        }
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text ? String(text).replace(/[&<>"']/g, m => map[m]) : '';
+    }
+
+    function showError(message) {
+        const containers = ['#alertsContainer', '#propertiesContainer', '#maintenanceContainer', '#activityContainer'];
+        containers.forEach(container => {
+            $(container).html(`
+                <div class="empty-state">
+                    <p style="color: var(--danger-color);">${message}</p>
+                </div>
+            `);
+        });
+    }
+</script>

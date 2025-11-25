@@ -1,0 +1,95 @@
+﻿@model IEnumerable<TenantsManagementApp.Models.Notification>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Channel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRead)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduledAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SentAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Channel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScheduledAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SentAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

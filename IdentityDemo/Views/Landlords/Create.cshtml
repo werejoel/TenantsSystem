@@ -1,0 +1,134 @@
+﻿
+@model TenantsManagementApp.Models.Landlord
+
+@{
+    ViewData["Title"] = "Create Landlord";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-header text-white rounded-top-4" style="background-color: #002244;">
+                    <h3 class="mb-0 text-center">Add New Landlord</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" id="createLandlordForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label fw-semibold"></label>
+                                <input asp-for="FirstName" class="form-control" required />
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label fw-semibold"></label>
+                                <input asp-for="LastName" class="form-control" required />
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label fw-semibold"></label>
+                                <input asp-for="Email" class="form-control" required />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label fw-semibold"></label>
+                                <input asp-for="Phone" class="form-control" required />
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-12">
+                                <label asp-for="Address" class="form-label fw-semibold"></label>
+                                <input asp-for="Address" class="form-control" required />
+                                <span asp-validation-for="Address" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="IsActive" />
+                                    <label class="form-check-label" asp-for="IsActive"></label>
+                                </div>
+                                <span asp-validation-for="IsActive" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CreatedAt" class="form-label fw-semibold"></label>
+                                <input asp-for="CreatedAt" class="form-control" type="datetime-local" />
+                                <span asp-validation-for="CreatedAt" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="UpdatedAt" class="form-label fw-semibold"></label>
+                                <input asp-for="UpdatedAt" class="form-control" type="datetime-local" />
+                                <span asp-validation-for="UpdatedAt" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <input type="submit" value="Create" class="btn text-white px-4 me-2" style="background-color: #002244;" />
+                            <a asp-action="Index" class="btn btn-success px-4">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#createLandlordForm").validate({
+                rules: {
+                    FirstName: {
+                        required: true
+                    },
+                    LastName: {
+                        required: true
+                    },
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Phone: {
+                        required: true
+                    },
+                    Address: {
+                        required: true
+                    }
+                },
+                messages: {
+                    FirstName: {
+                        required: "Please enter the first name."
+                    },
+                    LastName: {
+                        required: "Please enter the last name."
+                    },
+                    Email: {
+                        required: "Please enter an email address.",
+                        email: "Please enter a valid email address."
+                    },
+                    Phone: {
+                        required: "Please enter a phone number."
+                    },
+                    Address: {
+                        required: "Please enter the address."
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.next(".text-danger"));
+                },
+                invalidHandler: function(event, validator) {
+                    var errors = validator.numberOfInvalids();
+                    if (errors) {
+                        var messages = validator.errorList.map(function(e) { return e.message; });
+                        console.error("Validation errors:", messages);
+                        alert("Validation errors:\n" + messages.join("\n"));
+                    }
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}

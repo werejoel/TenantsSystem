@@ -1,0 +1,95 @@
+[
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.DataSeedingController",
+    "Method": "SeedDummyClaims",
+    "RelativePath": "api/DataSeeding/seed-dummy-claims",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.DataSeedingController",
+    "Method": "SeedDummyUsers",
+    "RelativePath": "api/DataSeeding/seed-dummy-users",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.FlutterwavePaymentsController",
+    "Method": "InitiatePayment",
+    "RelativePath": "api/FlutterwavePayments/initiate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TenantsManagementApp.Models.FlutterWave.InitiatePaymentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.FlutterwavePaymentsController",
+    "Method": "InitiateRefund",
+    "RelativePath": "api/FlutterwavePayments/refund/{transactionId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TenantsManagementApp.Models.FlutterWave.RefundRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.FlutterwavePaymentsController",
+    "Method": "VerifyTransaction",
+    "RelativePath": "api/FlutterwavePayments/verify/{transactionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.FlutterwavePaymentsController",
+    "Method": "HandleWebhook",
+    "RelativePath": "api/FlutterwavePayments/webhook",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TenantsManagementApp.Controllers.FlutterwavePaymentsController",
+    "Method": "Callback",
+    "RelativePath": "Payments/Callback",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

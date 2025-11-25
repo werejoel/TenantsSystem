@@ -1,0 +1,15 @@
+/* Minimal sidebar stylesheet to satisfy layout reference
+   Added to avoid 404 loading ~/css/sidebar.css referenced in _Layout.cshtml
+*/
+
+.sidebar {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.sidebar .nav-link {
+  color: #e2e8f0;
+}
+
+.sidebar .nav-link:hover { 
+  color: #fff;
+}

@@ -1,0 +1,49 @@
+﻿
+@model TenantsManagementApp.Models.Landlord
+
+@{
+    ViewData["Title"] = "Landlord Details";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-header text-white rounded-top-4" style="background-color: #002244;">
+                    <h3 class="mb-0 text-center">Landlord Details</h3>
+                </div>
+                <div class="card-body p-4">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.FirstName)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.FirstName)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.LastName)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.Email)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.Phone)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Phone)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.Address)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Address)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.IsActive)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.IsActive)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+                        <dt class="col-sm-4 fw-semibold">@Html.DisplayNameFor(model => model.UpdatedAt)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.UpdatedAt)</dd>
+                    </dl>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn text-white px-4" style="background-color: #002244;">Edit</a>
+                        <a asp-action="Index" class="btn btn-success px-4">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

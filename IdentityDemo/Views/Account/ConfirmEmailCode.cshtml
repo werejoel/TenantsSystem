@@ -1,0 +1,77 @@
+@model TenantsManagementApp.ViewModels.ConfirmEmailCodeViewModel
+@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 65vh;">
+    <div class="card shadow-lg rounded-4 p-4 border-0" style="max-width: 450px; width:100%;">
+        <div class="card-body">
+            <h4 class="fw-bold mb-3 text-primary text-center">Confirm Your Email</h4>
+            <form asp-action="ConfirmEmailCode" method="post" class="mb-2">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control border-primary border-2" value="@(Model.Email != null ? MaskEmail(Model.Email) : "")" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Code" class="form-label">Confirmation Code</label>
+                    <input asp-for="Code" class="form-control border-success border-2" pattern="\d{6}" maxlength="6" title="Enter a 6-digit code" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-success w-100 mb-2">Confirm Email</button>
+            </form>
+            <script>
+                // Client-side validation for code format
+                document.querySelector('input[name="Code"]').addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+                });
+            </script>
+            @functions {
+                public string MaskEmail(string email)
+                {
+                    if (string.IsNullOrEmpty(email) || !email.Contains("@")) return email;
+                    var parts = email.Split('@');
+                    var prefix = parts[0];
+                    var masked = prefix.Length > 2 ? prefix.Substring(0, 2) + new string('*', prefix.Length - 2) : prefix;
+                    return masked + "@" + parts[1];
+                }
+            }
+            @if (TempData["CodeExpiresOn"] != null)
+            {
+                <div class="alert alert-info mt-2">Confirmation code expires at: <strong>@TempData["CodeExpiresOn"]</strong></div>
+            }
+            @if (TempData["ResendWait"] != null)
+            {
+                <div class="alert alert-warning mt-2">You can request a new code in <strong>@TempData["ResendWait"]</strong> seconds.</div>
+            }
+            <form asp-action="ResendEmailCode" method="post">
+                <input type="hidden" asp-for="Email" />
+                <button type="submit" class="btn btn-warning w-100">Resend Confirmation Code</button>
+            </form>
+            @if (TempData["ResendSuccess"] != null)
+            {
+                <div class="alert alert-success mt-3">@TempData["ResendSuccess"]</div>
+            }
+            @if (TempData["ResendError"] != null)
+            {
+                <div class="alert alert-danger mt-3">@TempData["ResendError"]</div>
+            }
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="alert alert-danger mt-3">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                </div>
+            }
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

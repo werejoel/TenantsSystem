@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = " Admin Dashboard";
+}
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-5 fw-bold text-success mb-2">Welcome to TenantsManagement System</h1>
+            <p class="lead text-secondary">Manage users, roles, claims, payments, and more from your central dashboard.</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <!-- Users -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-people display-4 text-info mb-2"></i>
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text">View, add, edit, and manage users.</p>
+                    <a href="@Url.Action("Index", "Users")" class="btn btn-outline-info w-100">Manage Users</a>
+                </div>
+            </div>
+        </div>
+        <!-- Roles -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-shield-lock display-4 text-warning mb-2"></i>
+                    <h5 class="card-title">Roles</h5>
+                    <p class="card-text">Assign and manage user roles.</p>
+                    <a href="@Url.Action("Index", "Roles")" class="btn btn-outline-warning w-100">Manage Roles</a>
+                </div>
+            </div>
+        </div>
+        <!-- Claims -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-file-earmark-lock display-4 text-success mb-2"></i>
+                    <h5 class="card-title">Claims</h5>
+                    <p class="card-text">View and manage user claims.</p>
+                    <a href="@Url.Action("Index", "Claims")" class="btn btn-outline-success w-100">Manage Claims</a>
+                </div>
+            </div>
+        </div>
+        @* <!-- Payments -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-credit-card display-4 text-primary mb-2"></i>
+                    <h5 class="card-title">Payments</h5>
+                    <p class="card-text">Track and manage payments.</p>
+                    <a href="@Url.Action("Index", "Payments")" class="btn btn-outline-primary w-100">View Payments</a>
+                </div>
+            </div>
+        </div> *@
+        <!-- Profile -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-person-circle display-4 text-secondary mb-2"></i>
+                    <h5 class="card-title">Profile</h5>
+                    <p class="card-text">View and update your profile.</p>
+                    <a href="@Url.Action("Profile", "Account")" class="btn btn-outline-secondary w-100">My Profile</a>
+                </div>
+            </div>
+        </div>
+        <!-- Settings -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-gear display-4 text-dark mb-2"></i>
+                    <h5 class="card-title">Settings</h5>
+                    <p class="card-text">System configuration and preferences.</p>
+                    <a href="@Url.Action("Settings", "Home")" class="btn btn-outline-danger w-100">Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-success text-light py-3 mt-5 rounded" style=">
+        <div class="container text-center">
+            &copy; @DateTime.Now.Year TenantsManagement System by Joel, Luyima & Dannie. All rights reserved.
+        </div>
+    </footer>
+</div>

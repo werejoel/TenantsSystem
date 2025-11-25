@@ -1,0 +1,204 @@
+﻿@model TenantsManagementApp.Models.Payment
+
+@{
+    ViewData["Title"] = "Create Payment";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-header text-white rounded-top-4" style="background-color:#002244;">
+                    <h3 class="mb-0 text-center">Add New Payment</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" id="createPaymentForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Errors:</strong>
+                                <ul>
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="TenantId" class="form-label fw-semibold"></label>
+                                <select asp-for="TenantId" class="form-select" asp-items="ViewBag.TenantId" id="TenantId">
+                                    <option value="0">Select a Tenant</option>
+                                </select>
+                                <span asp-validation-for="TenantId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="HouseId" class="form-label fw-semibold"></label>
+                                <select asp-for="HouseId" class="form-select" asp-items="ViewBag.HouseId" id="HouseId">
+                                    <option value="0">Select a House</option>
+                                </select>
+                                <span asp-validation-for="HouseId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="AmountPaid" class="form-label fw-semibold"></label>
+                                <input asp-for="AmountPaid" class="form-control" type="number" step="0.01" min="0.01" required id="AmountPaid" />
+                                <span asp-validation-for="AmountPaid" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PaymentDate" class="form-label fw-semibold"></label>
+                                <input asp-for="PaymentDate" class="form-control" type="date" required id="PaymentDate" />
+                                <span asp-validation-for="PaymentDate" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PeriodStart" class="form-label fw-semibold"></label>
+                                <input asp-for="PeriodStart" class="form-control" type="date" id="PeriodStart" />
+                                <span asp-validation-for="PeriodStart" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PeriodEnd" class="form-label fw-semibold"></label>
+                                <input asp-for="PeriodEnd" class="form-control" type="date" id="PeriodEnd" />
+                                <span asp-validation-for="PeriodEnd" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PaymentMethod" class="form-label fw-semibold"></label>
+                                <select asp-for="PaymentMethod" class="form-select" id="PaymentMethod">
+                                    <option value="">Select Payment Method</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Check">Check</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="Mobile Money">Mobile Money</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="PaymentMethod" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="TransactionReference" class="form-label fw-semibold"></label>
+                                <input asp-for="TransactionReference" class="form-control" id="TransactionReference" />
+                                <span asp-validation-for="TransactionReference" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Notes" class="form-label fw-semibold"></label>
+                                <textarea asp-for="Notes" class="form-control" rows="3" id="Notes"></textarea>
+                                <span asp-validation-for="Notes" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <input type="submit" value="Create" class="btn text-white px-4 me-2" style="background-color: #002244;" id="submitButton" />
+                            <a asp-action="Index" class="btn btn-success px-4">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#createPaymentForm").validate({
+                rules: {
+                    TenantId: {
+                        required: true,
+                        min: 1
+                    },
+                    HouseId: {
+                        required: true,
+                        min: 1
+                    },
+                    AmountPaid: {
+                        required: true,
+                        min: 0.01
+                    },
+                    PaymentDate: {
+                        required: true
+                    },
+                    PaymentMethod: {
+                        required: true
+                    }
+                },
+                messages: {
+                    TenantId: {
+                        required: "Please select a tenant.",
+                        min: "Please select a valid tenant."
+                    },
+                    HouseId: {
+                        required: "Please select a house.",
+                        min: "Please select a valid house."
+                    },
+                    AmountPaid: {
+                        required: "Please enter an amount.",
+                        min: "Amount must be greater than zero."
+                    },
+                    PaymentDate: {
+                        required: "Please select a payment date."
+                    },
+                    PaymentMethod: {
+                        required: "Please select a payment method."
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    if (element.attr("name") === "TenantId" || element.attr("name") === "HouseId" || element.attr("name") === "PaymentMethod") {
+                        error.insertAfter(element.next(".text-danger"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                invalidHandler: function(event, validator) {
+                    var errors = validator.numberOfInvalids();
+                    if (errors) {
+                        var messages = validator.errorList.map(function(e) { return e.message; });
+                        console.error("Validation errors:", messages);
+                        alert("Validation errors:\n" + messages.join("\n"));
+                    }
+                },
+                submitHandler: function (form) {
+                    var tenantId = $("#TenantId").val();
+                    var houseId = $("#HouseId").val();
+                    var amountPaid = $("#AmountPaid").val();
+                    var paymentDate = $("#PaymentDate").val();
+                    var paymentMethod = $("#PaymentMethod").val();
+
+                    if (!tenantId || tenantId === "0") {
+                        $("#TenantId").next(".text-danger").text("Please select a tenant.");
+                        console.error("TenantId is missing or invalid.");
+                        alert("Please select a tenant.");
+                        return false;
+                    }
+                    if (!houseId || houseId === "0") {
+                        $("#HouseId").next(".text-danger").text("Please select a house.");
+                        console.error("HouseId is missing or invalid.");
+                        alert("Please select a house.");
+                        return false;
+                    }
+                    if (!amountPaid || parseFloat(amountPaid) <= 0) {
+                        $("#AmountPaid").next(".text-danger").text("Amount must be greater than zero.");
+                        console.error("AmountPaid is missing or invalid.");
+                        alert("Amount must be greater than zero.");
+                        return false;
+                    }
+                    if (!paymentDate) {
+                        $("#PaymentDate").next(".text-danger").text("Please select a payment date.");
+                        console.error("PaymentDate is missing.");
+                        alert("Please select a payment date.");
+                        return false;
+                    }
+                    if (!paymentMethod || paymentMethod === "") {
+                        $("#PaymentMethod").next(".text-danger").text("Please select a payment method.");
+                        console.error("PaymentMethod is missing.");
+                        alert("Please select a payment method.");
+                        return false;
+                    }
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}

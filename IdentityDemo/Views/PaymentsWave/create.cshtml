@@ -1,0 +1,136 @@
+﻿@model TenantsManagementApp.Models.ViewModels.PaymentViewModel
+@{
+    ViewData["Title"] = "Initiate Payment";
+}
+
+<h1>Initiate Payment</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="paymentForm" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TenantId" class="control-label"></label>
+                <select asp-for="TenantId" class="form-control" asp-items="Model.Tenants">
+                    <option value="">Select Tenant</option>
+                </select>
+                <span asp-validation-for="TenantId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="HouseId" class="control-label"></label>
+                <select asp-for="HouseId" class="form-control" asp-items="Model.Houses">
+                    <option value="">Select House</option>
+                </select>
+                <span asp-validation-for="HouseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AmountPaid" class="control-label"></label>
+                <input asp-for="AmountPaid" class="form-control" type="number" step="0.01" min="100" />
+                <span asp-validation-for="AmountPaid" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Purpose" class="control-label"></label>
+                <select asp-for="Purpose" class="form-control">
+                    <option value="Rent">Rent</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PaymentDate" class="control-label"></label>
+                <input asp-for="PaymentDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="PaymentDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PeriodStart" class="control-label"></label>
+                <input asp-for="PeriodStart" class="form-control" type="date" />
+                <span asp-validation-for="PeriodStart" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PeriodEnd" class="control-label"></label>
+                <input asp-for="PeriodEnd" class="form-control" type="date" />
+                <span asp-validation-for="PeriodEnd" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ChargeIds" class="control-label">Charges to Pay</label>
+                <select asp-for="ChargeIds" class="form-control" multiple asp-items="Model.Charges">
+                    <option value="">Select Charges</option>
+                </select>
+                <span asp-validation-for="ChargeIds" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Notes" class="control-label"></label>
+                <textarea asp-for="Notes" class="form-control"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="RedirectUrl" />
+
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary">Initiate Payment</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Replace  method to get JWT token (e.g., from localStorage or Identity)
+        const userToken = "your_jwt_token_here"; // TODO: Implement token retrieval
+
+        $(document).ready(function () {
+            $("#paymentForm").on("submit", async function (e) {
+                e.preventDefault();
+
+                if (!$(this).valid()) {
+                    return;
+                }
+
+                const formData = {
+                    tenantId: parseInt($("#TenantId").val()),
+                    houseId: parseInt($("#HouseId").val()),
+                    amountPaid: parseFloat($("#AmountPaid").val()),
+                    purpose: $("#Purpose").val(),
+                    paymentDate: $("#PaymentDate").val(),
+                    periodStart: $("#PeriodStart").val() || null,
+                    periodEnd: $("#PeriodEnd").val() || null,
+                    notes: $("#Notes").val(),
+                    redirectUrl: $("#RedirectUrl").val(),
+                    chargeIds: $("#ChargeIds").val().map(Number)
+                };
+
+                try {
+                    const response = await fetch('/api/payments/initiate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + userToken
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+                    if (result.redirectUrl) {
+                        window.location.href = result.redirectUrl; // Redirect to MTN auth
+                    } else {
+                        alert(result.error || "Failed to initiate payment");
+                    }
+                } catch (error) {
+                    alert("An error occurred: " + error.message);
+                }
+            });
+        });
+    </script>
+}

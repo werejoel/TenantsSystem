@@ -1,0 +1,143 @@
+﻿
+@model TenantsManagementApp.Models.Tenant
+
+@{
+    ViewData["Title"] = "Create Tenant";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-header text-white rounded-top-4" style="background-color:#002244 ;">
+                    <h3 class="mb-0 text-center">Add New Tenant</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" id="createTenantForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Errors:</strong>
+                                <ul>
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="User" class="form-label fw-semibold"></label>
+                                <select asp-for="UserId" class="form-select" asp-items="ViewBag.UserId">
+                                    <option value="">Select a User</option>
+                                </select>
+                                <span asp-validation-for="UserId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="House" class="form-label fw-semibold"></label>
+                                <select asp-for="HouseId" class="form-select" asp-items="ViewBag.HouseId">
+                                    <option value="">Select a House</option>
+                                </select>
+                                <span asp-validation-for="HouseId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LeaseStartDate" class="form-label fw-semibold"></label>
+                                <input asp-for="LeaseStartDate" class="form-control" type="date" required />
+                                <span asp-validation-for="LeaseStartDate" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LeaseEndDate" class="form-label fw-semibold"></label>
+                                <input asp-for="LeaseEndDate" class="form-control" type="date" required />
+                                <span asp-validation-for="LeaseEndDate" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SecurityDeposit" class="form-label fw-semibold"></label>
+                                <input asp-for="SecurityDeposit" class="form-control" type="number" step="0.01" required />
+                                <span asp-validation-for="SecurityDeposit" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="IsActive" class="form-label fw-semibold"></label>
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="IsActive" />
+                                    <label class="form-check-label" asp-for="IsActive"></label>
+                                </div>
+                                <span asp-validation-for="IsActive" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <input type="submit" value="Create" class="btn text-white  px-4 me-2" style="background-color: #002244;" />
+                            <a asp-action="Index" class="btn btn-success px-4">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#createTenantForm").validate({
+                rules: {
+                    UserId: {
+                        required: true,
+                        min: 1
+                    },
+                    HouseId: {
+                        required: true,
+                        min: 1
+                    }
+                },
+                messages: {
+                    UserId: {
+                        required: "Please select a user.",
+                        min: "Please select a valid user."
+                    },
+                    HouseId: {
+                        required: "Please select a house.",
+                        min: "Please select a valid house."
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    if (element.attr("name") === "UserId" || element.attr("name") === "HouseId") {
+                        error.insertAfter(element.next(".text-danger"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                invalidHandler: function(event, validator) {
+                    var errors = validator.numberOfInvalids();
+                    if (errors) {
+                        var messages = validator.errorList.map(function(e) { return e.message; });
+                        console.error("Validation errors:", messages);
+                        alert("Validation errors:\n" + messages.join("\n"));
+                    }
+                },
+                submitHandler: function (form) {
+                    var userId = $("#UserId").val();
+                    var houseId = $("#HouseId").val();
+                    if (!userId || userId === "") {
+                        $("#UserId").next(".text-danger").text("Please select a user.");
+                        console.error("UserId is missing or invalid.");
+                        alert("Please select a user.");
+                        return false;
+                    }
+                    if (!houseId || houseId === "") {
+                        $("#HouseId").next(".text-danger").text("Please select a house.");
+                        console.error("HouseId is missing or invalid.");
+                        alert("Please select a house.");
+                        return false;
+                    }
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,161 @@
+﻿@model IEnumerable<TenantsManagementApp.Models.House>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    body {
+        background-color: #f5f6f5;
+    }
+
+    .container {
+        max-width: 1200px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-create {
+        background: linear-gradient(135deg, #002244, #003366);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.7rem 1.4rem;
+        font-weight: 500;
+        transition: background 0.3s ease, transform 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-create:hover {
+        background: linear-gradient(135deg, #002244, #003366);
+        transform: translateY(-2px);
+        color: aliceblue;
+    }
+
+    .table-container {
+        background: aliceblue;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .table {
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #002244, #003366);
+        color: aliceblue;
+    }
+
+    .table th {
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 1rem;
+        text-align: left;
+        border-right: 1px solid #dee2e6;
+        border-bottom: 2px solid #dee2e6;
+        border-top: 1px solid #dee2e6;
+        background: linear-gradient(135deg, #002244, #003366);
+        color: aliceblue;
+    }
+    .table th:last-child {
+        border-right: none;
+    }
+
+    .table td {
+        font-size: 0.85rem;
+        color: #333;
+        padding: 1rem;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .table tbody tr {
+        transition: background 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .action-links a {
+        color: #002244;
+        text-decoration: none;
+        font-size: 0.85rem;
+        margin-right: 0.75rem;
+        transition: color 0.2s ease;
+    }
+
+    .action-links a:hover {
+        color: #003366;
+        text-decoration: underline;
+    }
+
+    .action-links a:last-child {
+        margin-right: 0;
+    }
+</style>
+
+<div class="container py-4">
+    <h1 class=" text-center" style="background-color: #002244; color: aliceblue;">Houses</h1>
+    <p>
+        <a asp-action="Create" class="btn-create">Create New House</a>
+    </p>
+    <div class="table-container">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Location)</th>
+                    <th>@Html.DisplayNameFor(model => model.Model)</th>
+                    <th>@Html.DisplayNameFor(model => model.Price)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+                    <th>@Html.DisplayNameFor(model => model.Landlord)</th>
+                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.UpdatedAt)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Model)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Landlord.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+                        <td class="action-links d-flex gap-2 justify-content-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm rounded-circle" style="background: linear-gradient(135deg, #4e9cff, #0056b3); color: #fff; border: none;" title="Edit">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm rounded-circle" style="background: linear-gradient(135deg, #38c6c6, #007b7b); color: #fff; border: none;" title="Details">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm rounded-circle" style="background: linear-gradient(135deg, #ff5e5e, #b30000); color: #fff; border: none;" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,1629 @@
+@{
+    ViewData["Title"] = "Tenant Dashboard";
+}
+<!--  CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+    .card-header-notifications {
+        background: linear-gradient(135deg, #ff6363 0%, #e8505b 100%);
+        color: #fff;
+        border: none;
+    }
+    .quick-action-btn.messages {
+        background: linear-gradient(135deg, #6c63ff 0%, #5145cd 100%);
+        color: #fff;
+    }
+    .quick-action-btn.notifications {
+        background: linear-gradient(135deg, #ff6363 0%, #e8505b 100%);
+        color: #fff;
+    }
+    /* Card Header Custom Colors*/
+    .card-header-balance {
+        background: linear-gradient(135deg, #25a7a1 0%, #1abc9c 100%);
+        color: #fff;
+        border: none;
+    }
+    .card-header-maintenance {
+        background: linear-gradient(135deg, #f7b731 0%, #f5a623 100%);
+        color: #fff;
+        border: none;
+    }
+    .card-header-download {
+        background: linear-gradient(135deg, #183153 0%, #34495e 100%);
+        color: #fff;
+        border: none;
+    }
+    /* Quick Action Button Colors */
+    .quick-action-btn.payment {
+        background: linear-gradient(135deg, #25a7a1 0%, #1abc9c 100%);
+        color: #fff;
+    }
+    .quick-action-btn.maintenance {
+        background: linear-gradient(135deg, #f7b731 0%, #f5a623 100%);
+        color: #fff;
+    }
+    .quick-action-btn.download {
+        background: linear-gradient(135deg, #183153 0%, #34495e 100%);
+        color: #fff;
+    }
+    .quick-action-btn.disabled {
+        background: #e3eaf2 !important;
+        color: #b0b8c1 !important;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    :root {
+    --primary-color: #183153;         /* Deep Blue */
+    --primary-light: #25a7a1;         /* Teal Accent */
+    --primary-dark: #10213a;          /* Darker Blue */
+    --background-light: #f8fafc;      /* Lighter Gray */
+    --background-medium: #e9eef3;     /* Lighter Medium Gray */
+    --background-dark: #e3eaf2;       /* Lighter Dark Gray */
+    --text-dark: #1a232f;             /* Near Black */
+    --text-muted: #6c7a89;            /* Muted Gray */
+    --border-color: #d1dbe6;          /* Soft Border */
+    --sidebar-width: 140px;
+    }
+
+    /* Sidebar styles for dashboard */
+    :root {
+    /* Remove override of background-light to dark color */
+    --primary-color: #34495e;
+    --primary-light: #4a6278;
+    --primary-dark: #2c3e50;
+    --success-color: #25a7a1;
+    --success-light: #1abc9c;
+    --success-dark: #183153;
+    --warning-color: #f7b731;
+    --warning-light: #f5a623;
+    --warning-dark: #e8505b;
+    --background-light: #f8fafc;
+    --background-medium: #e9eef3;
+    --background-dark: #e3eaf2;
+    --text-dark: #1a232f;
+    --text-muted: #6c7a89;
+    --border-color: #d1dbe6;
+    --sidebar-width: 220px;
+    }
+
+    /* Sidebar styles for dashboard*/
+    .dashboard-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: var(--sidebar-width);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+        color: #fff;
+        z-index: 1050;
+        box-shadow: 1px 0 2px rgba(44, 62, 80, 0.06);
+        border-right: 1px solid var(--border-color);
+        padding-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dashboard-sidebar .sidebar-logo {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        padding-left: 1.5rem;
+        letter-spacing: 1px;
+    }
+    .dashboard-sidebar .sidebar-nav {
+        width: 100%;
+        padding-left: 0.5rem;
+    }
+    .dashboard-sidebar .sidebar-nav a {
+        display: block;
+        color: #e2e8f0;
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        border-radius: 0 20px 20px 0;
+        margin-bottom: 0.25rem;
+        transition: background 0.2s, color 0.2s;
+    }
+    .dashboard-sidebar .sidebar-nav a.active,
+    .dashboard-sidebar .sidebar-nav a:hover {
+        background: var(--primary-light);
+        color: #fff;
+    }
+
+    /* Main content*/
+    .dashboard-main-content {
+        margin-left: var(--sidebar-width);
+    }
+
+   
+    body {
+        background: var(--background-light);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+    }
+   
+    .dashboard-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: #fff;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 8px 20px rgba(52, 73, 94, 0.2);
+    }
+   
+    .stats-card {
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(52, 73, 94, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: white;
+    }
+   
+    .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(52, 73, 94, 0.15);
+    }
+   
+    .card-header-primary { 
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); 
+        color: white; 
+        border: none;
+    }
+    .card-header-success { 
+        background: linear-gradient(135deg, var(--success-color) 0%, var(--success-light) 100%); 
+        color: white; 
+        border: none;
+    }
+    .card-header-warning { 
+        background: linear-gradient(135deg, var(--warning-color) 0%, var(--warning-light) 100%); 
+        color: white; 
+        border: none;
+    }
+    .card-header-info { 
+        background: linear-gradient(135deg, var(--success-dark) 0%, var(--success-color) 100%); 
+        color: white; 
+        border: none;
+    }
+    .card-header-dark { 
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%); 
+        color: white; 
+        border: none;
+    }
+   
+    .quick-action-btn {
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+    }
+   
+    .quick-action-btn:hover { 
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, var(--success-color) 0%, var(--success-light) 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, var(--success-dark) 0%, var(--success-color) 100%);
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, var(--warning-color) 0%, var(--warning-light) 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, var(--warning-dark) 0%, var(--warning-color) 100%);
+    }
+
+    .btn-info {
+        background: linear-gradient(135deg, var(--success-dark) 0%, var(--success-color) 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-outline-success {
+        color: var(--success-color);
+        border: 2px solid var(--success-color);
+    }
+
+    .btn-outline-success:hover {
+        background: var(--success-color);
+        border-color: var(--success-color);
+        color: white;
+    }
+
+    .btn-outline-warning {
+        color: var(--warning-color);
+        border: 2px solid var(--warning-color);
+    }
+
+    .btn-outline-warning:hover {
+        background: var(--warning-color);
+        border-color: var(--warning-color);
+        color: white;
+    }
+
+    .btn-outline-danger {
+        color: var(--warning-dark);
+        border: 2px solid var(--warning-dark);
+    }
+
+    .btn-outline-danger:hover {
+        background: var(--warning-dark);
+        border-color: var(--warning-dark);
+        color: white;
+    }
+
+    .btn-outline-dark {
+        color: var(--primary-dark);
+        border: 2px solid var(--primary-dark);
+    }
+
+    .btn-outline-dark:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: var(--primary-light);
+        border: none;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: var(--primary-color);
+    }
+   
+    .notification-item {
+        border-left: 4px solid var(--primary-color);
+        background: rgba(52, 73, 94, 0.05);
+        margin-bottom: 10px;
+        padding: 14px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+   
+    .notification-item:hover { 
+        background: rgba(52, 73, 94, 0.1);
+        border-left-color: var(--primary-light);
+        box-shadow: 0 2px 8px rgba(52, 73, 94, 0.1);
+    }
+   
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        color: white;
+        margin: 0 auto 12px;
+    }
+   
+    .maintenance-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+   
+    .status-pending { 
+        background: rgba(245, 87, 108, 0.15); 
+        color: var(--warning-dark);
+        border: 1px solid var(--warning-color);
+    }
+    .status-progress { 
+        background: rgba(56, 239, 125, 0.15); 
+        color: var(--success-dark);
+        border: 1px solid var(--success-color);
+    }
+    .status-completed { 
+        background: rgba(52, 73, 94, 0.15); 
+        color: var(--primary-dark);
+        border: 1px solid var(--primary-color);
+    }
+   
+    .nav-pills .nav-link {
+        color: var(--text-dark);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-pills .nav-link:hover {
+        background: rgba(52, 73, 94, 0.1);
+    }
+
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(52, 73, 94, 0.3);
+    }
+   
+    .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(52, 73, 94, 0.1);
+        border-top: 3px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+   
+    .error-message {
+        background: rgba(245, 87, 108, 0.1);
+        border: 1px solid var(--warning-color);
+        color: var(--warning-dark);
+        padding: 12px;
+        border-radius: 6px;
+        margin: 10px 0;
+    }
+
+    .text-primary { color: var(--primary-color) !important; }
+    .text-success { color: var(--success-color) !important; }
+    .text-warning { color: var(--warning-color) !important; }
+    .text-danger { color: var(--warning-dark) !important; }
+    .text-info { color: var(--success-dark) !important; }
+
+    .bg-primary { background: var(--primary-color) !important; }
+    .bg-success { background: var(--success-color) !important; }
+    .bg-warning { background: var(--warning-color) !important; }
+    .bg-danger { background: var(--warning-dark) !important; }
+    .bg-info { background: var(--success-dark) !important; }
+
+    .badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 11px;
+    }
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table thead th {
+        background: var(--background-medium);
+        color: var(--text-dark);
+        border: none;
+        font-weight: 600;
+    }
+
+    .table tbody tr {
+        transition: background 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(52, 73, 94, 0.05);
+    }
+
+    .border-primary { border-color: var(--primary-color) !important; }
+    .border-success { border-color: var(--success-color) !important; }
+    .border-warning { border-color: var(--warning-color) !important; }
+    .border-danger { border-color: var(--warning-dark) !important; }
+    .border-info { border-color: var(--success-dark) !important; }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 73, 94, 0.15);
+    }
+
+    .weather-widget {
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+        padding: 10px 15px;
+    }
+</style>
+
+
+<!-- Dashboard Sidebar and Header -->
+<div class="dashboard-sidebar d-none d-lg-flex">
+    <div class="w-100 px-3 mb-3" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="sidebar-logo mb-2" style="font-size:1.1rem;">
+            <i class="fas fa-building me-2"></i> TMS
+        </div>
+        <div class="sidebar-profile mb-2 text-center" style="width:100%;">
+            <i class="fas fa-user-circle fa-2x mb-1"></i>
+            <div style="font-size:0.95rem; word-break:break-all;">@User.Identity.Name</div>
+        </div>
+        <form method="post" asp-controller="Account" asp-action="Logout" class="w-100 mb-3">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="fas fa-sign-out-alt me-1"></i> Logout
+            </button>
+        </form>
+    </div>
+    <nav class="sidebar-nav flex-grow-1">
+        <a href="#overview" class="sidebar-link" data-bs-toggle="pill" data-bs-target="#overview">
+            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+        </a>
+        <a href="#payments" class="sidebar-link" data-bs-toggle="pill" data-bs-target="#payments">
+            <i class="fas fa-credit-card me-2"></i> Payments
+        </a>
+        <a href="#maintenance" class="sidebar-link" data-bs-toggle="pill" data-bs-target="#maintenance">
+            <i class="fas fa-tools me-2"></i> Maintenance
+        </a>
+        <a href="#documents" class="sidebar-link" data-bs-toggle="pill" data-bs-target="#documents">
+            <i class="fas fa-folder me-2"></i> Documents
+        </a>
+        <a href="#community" class="sidebar-link" data-bs-toggle="pill" data-bs-target="#community">
+            <i class="fas fa-users me-2"></i> Announcements
+        </a>
+    </nav>
+    
+</div>
+
+<!--<div class="dashboard-header dashboard-main-content">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-12 text-end">
+                <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline-block ms-3 mt-2">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<div class="container dashboard-main-content">
+    <div id="server-error" class="mb-3"></div>
+    <!-- Quick Stats Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-header card-header-balance text-center">
+                    <div class="feature-icon card-header-success mx-auto">
+                        <span style="font-weight:bold;font-size:1.0em;">UGX</span>
+                    </div>
+                    <h6 class="mb-0">Current Balance</h6>
+                </div>
+                <div class="card-body text-center">
+                    <div id="balance-info">
+                        <div class="loading-spinner mx-auto"></div>
+                        <p class="mt-2 mb-0">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-header card-header-maintenance text-center">
+                    <div class="feature-icon card-header-warning mx-auto">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h6 class="mb-0">Maintenance</h6>
+                </div>
+                <div class="card-body text-center">
+                    <div id="maintenance-info">
+                        <div class="loading-spinner mx-auto"></div>
+                        <p class="mt-2 mb-0">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-header card-header-notifications text-center">
+                    <div class="feature-icon card-header-info mx-auto">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h6 class="mb-0">Notifications</h6>
+                </div>
+                <div class="card-body text-center">
+                    <div id="notifications-info">
+                        <div class="loading-spinner mx-auto"></div>
+                        <p class="mt-2 mb-0">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card">
+                <div class="card-header card-header-download text-center">
+                    <div class="feature-icon card-header-dark mx-auto">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h6 class="mb-0">Lease Status</h6>
+                </div>
+                <div class="card-body text-center">
+                    <div id="lease-info">
+                        <div class="loading-spinner mx-auto"></div>
+                        <p class="mt-2 mb-0">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Tabs -->
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-pills nav-fill mb-4" id="dashboardTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button">
+                        <i class="fas fa-tachometer-alt me-2"></i>Overview
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="payments-tab" data-bs-toggle="pill" data-bs-target="#payments" type="button">
+                        <i class="fas fa-credit-card me-2"></i>Payments
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="maintenance-tab" data-bs-toggle="pill" data-bs-target="#maintenance" type="button">
+                        <i class="fas fa-wrench me-2"></i>Maintenance
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="documents-tab" data-bs-toggle="pill" data-bs-target="#documents" type="button">
+                        <i class="fas fa-folder me-2"></i>Documents
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="community-tab" data-bs-toggle="pill" data-bs-target="#community" type="button">
+                        <i class="fas fa-users me-2"></i>Announcements
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="dashboardTabsContent">
+        <!-- Overview Tab -->
+        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+            <div class="row g-4">
+                <!-- Recent Activity -->
+                <div class="col-lg-8">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-primary">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Activity</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="recent-activity">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading recent activity...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quick Actions -->
+                <div class="col-lg-4">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-primary">
+                            <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <a href="@Url.Action("Create", "Payments")" class="btn quick-action-btn payment">
+                                    <span style="font-weight:bold;font-size:1em;">UGX</span> Make Payment
+                                </a>
+                                <a href="@Url.Action("Create", "MaintenanceRequests")" class="btn quick-action-btn maintenance">
+                                    <i class="fas fa-tools me-2"></i>Submit Maintenance
+                                </a>
+                                <a href="@Url.Action("Index", "Messages")" class="btn quick-action-btn messages" title="Message Management">
+                                    <i class="fas fa-envelope me-2"></i>Message Management
+                                </a>
+                                <a href="@Url.Action("Index", "Notifications")" class="btn quick-action-btn notifications" title="Notifications">
+                                    <i class="fas fa-bell me-2"></i>Notifications
+                                </a>
+                                <a href="@Url.Action("GetTenantDocuments", "Documents")" class="btn quick-action-btn download">
+                                    <i class="fas fa-download me-2"></i>Download Lease
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments Tab -->
+        <div class="tab-pane fade" id="payments" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-success">
+                            <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Payment History</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="payment-history">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading payment history...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-success">
+                            <h5 class="mb-0"><i class="fas fa-credit-card me-2"></i>Payment Methods</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="payment-methods">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading payment methods...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance Tab -->
+        <div class="tab-pane fade" id="maintenance" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-warning">
+                            <h5 class="mb-0"><i class="fas fa-list me-2"></i>Maintenance Requests</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="maintenance-requests">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading maintenance requests...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-warning">
+                            <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Submit Request</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="maintenance-form">
+                                @Html.AntiForgeryToken()
+                                <div class="mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" name="Category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Plumbing">Plumbing</option>
+                                        <option value="Electrical">Electrical</option>
+                                        <option value="HVAC">HVAC</option>
+                                        <option value="Appliances">Appliances</option>
+                                        <option value="Structural">Structural</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Priority</label>
+                                    <select class="form-select" name="Priority" required>
+                                        <option value="">Select Priority</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                        <option value="Emergency">Emergency</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Title</label>
+                                    <input type="text" class="form-control" name="Title" required placeholder="Brief description of the issue">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-control" name="Description" rows="4" required placeholder="Detailed description of the issue..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-warning w-100">
+                                    <span class="btn-text">Submit Request</span>
+                                    <div class="loading-spinner d-none"></div>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Tab -->
+        <div class="tab-pane fade" id="documents" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-dark">
+                            <h5 class="mb-0"><i class="fas fa-file-contract me-2"></i>Lease Documents</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="lease-documents">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading documents...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-info">
+                            <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Available Forms</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="available-forms">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading forms...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Tab -->
+        <div class="tab-pane fade" id="community" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-info">
+                            <h5 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Announcements</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="announcements">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading announcements...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card stats-card">
+                        <div class="card-header card-header-success">
+                            <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Upcoming Events</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="upcoming-events">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading events...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card stats-card mt-4">
+                        <div class="card-header card-header-warning">
+                            <h5 class="mb-0"><i class="fas fa-phone me-2"></i>Emergency Contacts</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="emergency-contacts">
+                                <div class="loading-spinner"></div>
+                                <span class="ms-2">Loading contacts...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+// Sidebar tab navigation logic
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.sidebar-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var target = link.getAttribute('data-bs-target');
+            if (target) {
+                var tabTrigger = new bootstrap.Tab(document.querySelector('button[data-bs-target="' + target + '"]'));
+                tabTrigger.show();
+            }
+        });
+    });
+});
+// Dashboard API Manager
+class DashboardAPI {
+    constructor() {
+        this.baseUrl = '';
+        this.cache = new Map();
+        this.cacheExpiry = 5 * 60 * 1000;
+        console.log('🚀 DashboardAPI initialized');
+    }
+
+    async fetchWithCache(endpoint, options = {}) {
+        const cacheKey = `${endpoint}_${JSON.stringify(options)}`;
+        const cached = this.cache.get(cacheKey);
+        
+        if (cached && Date.now() - cached.timestamp < this.cacheExpiry) {
+            console.log(`✅ Cache hit for ${endpoint}`);
+            return cached.data;
+        }
+        console.log(`📡 Fetching ${endpoint}...`);
+        try {
+            const response = await fetch(endpoint, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    ...options.headers
+                }
+            });
+
+            console.log(`Response status for ${endpoint}: ${response.status}`);
+
+            // Try to parse JSON body if present
+            let data = null;
+            try {
+                data = await response.json();
+            } catch (e) {
+                console.warn(`Failed to parse JSON for ${endpoint}:`, e);
+                data = null; 
+            }
+
+            if (!response.ok) {
+                const serverMessage = data && data.message ? data.message : `HTTP error! status: ${response.status}`;
+                const err = new Error(serverMessage);
+                err.status = response.status;
+                err.body = data;
+                console.error(`❌ API error for ${endpoint}:`, err);
+                throw err;
+            }
+
+            console.log(`✅ Success for ${endpoint}:`, data);
+            this.cache.set(cacheKey, { data, timestamp: Date.now() });
+            return data;
+        } catch (error) {
+            console.error(`❌ API call failed for ${endpoint}:`, error);
+            // rethrow so callers can surface the message
+            throw error;
+        }
+    }
+
+    async getTenantProfile() {
+        return this.fetchWithCache('/TenantsDashboard/GetTenantProfile');
+    }
+
+    async getDashboardStats() {
+        return this.fetchWithCache('/TenantsDashboard/GetDashboardStats');
+    }
+
+    async getRecentActivity() {
+        return this.fetchWithCache('/TenantsDashboard/GetRecentActivity');
+    }
+
+    async getPaymentHistory() {
+        return this.fetchWithCache('/TenantsDashboard/GetPaymentHistory');
+    }
+
+    async getPaymentMethods() {
+        return this.fetchWithCache('/TenantsDashboard/GetPaymentMethods');
+    }
+
+    async getMaintenanceRequests() {
+        return this.fetchWithCache('/TenantsDashboard/GetMaintenanceRequests');
+    }
+
+    async submitMaintenanceRequest(requestData) {
+        // POST requests should not be cached. Include anti-forgery token if present in payload.
+        const token = requestData.__RequestVerificationToken || null;
+        const headers = { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
+        if (token) headers['RequestVerificationToken'] = token;
+
+        const response = await fetch('/TenantsDashboard/SubmitMaintenanceRequest', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestData)
+        });
+
+        let data = null;
+        try { data = await response.json(); } catch (e) { data = null; }
+        if (!response.ok) {
+            const msg = data && data.message ? data.message : `HTTP error ${response.status}`;
+            const err = new Error(msg);
+            err.status = response.status;
+            err.body = data;
+            throw err;
+        }
+        return data;
+    }
+
+    async getDocuments() {
+        return this.fetchWithCache('/TenantsDashboard/GetDocuments');
+    }
+
+    async getAnnouncements() {
+        return this.fetchWithCache('/TenantsDashboard/GetAnnouncements');
+    }
+
+    async getUpcomingEvents() {
+        return this.fetchWithCache('/TenantsDashboard/GetUpcomingEvents');
+    }
+
+    async getEmergencyContacts() {
+        return this.fetchWithCache('/TenantsDashboard/GetEmergencyContacts');
+    }
+
+    async getWeatherInfo() {
+        return this.fetchWithCache('/TenantsDashboard/GetWeatherInfo');
+    }
+}
+
+// Dashboard Manager
+class TenantDashboard {
+    constructor() {
+        this.api = new DashboardAPI();
+        this.init();
+    }
+
+    async init() {
+        try {
+            console.log('📊 Initializing TenantDashboard...');
+            await this.loadDashboardData();
+            this.setupEventListeners();
+            this.setupAutoRefresh();
+            console.log('✅ Dashboard initialized successfully');
+        } catch (error) {
+            console.error('❌ Dashboard initialization failed:', error);
+            this.showError('Failed to load dashboard data. Please refresh the page.');
+        }
+    }
+
+    async loadDashboardData() {
+        await Promise.allSettled([
+            this.loadTenantInfo(),
+            this.loadDashboardStats(),
+            this.loadRecentActivity(),
+            this.loadWeatherInfo()
+        ]);
+    }
+
+    async loadTenantInfo() {
+        try {
+            const profile = await this.api.getTenantProfile();
+            const tenantInfoEl = document.getElementById('tenant-info');
+            if (tenantInfoEl && profile) {
+                tenantInfoEl.innerHTML = `
+                    <span class="opacity-75">
+                        ${profile.unitNumber ? `Unit ${profile.unitNumber}, ` : ''}
+                        ${profile.propertyName || 'Property'} •
+                        Lease expires: ${this.formatDate(profile.leaseEndDate)}
+                    </span>
+                `;
+            }
+        } catch (error) {
+            const msg = error && error.message ? error.message : 'Failed to load tenant information';
+            this.handleError('tenant-info', msg);
+        }
+    }
+
+    async loadDashboardStats() {
+        try {
+            const stats = await this.api.getDashboardStats();
+            
+            document.getElementById('balance-info').innerHTML = `
+                <h3 class="text-success mb-2">${stats.currentBalance.toFixed(2)}</h3>
+                <small class="text-muted">Due: ${this.formatDate(stats.nextPaymentDate)}</small>
+                <br>
+                <a href="@Url.Action("Create", "Payments")" class="btn btn-success btn-sm mt-2 quick-action-btn">Pay Now</a>
+            `;
+
+            document.getElementById('maintenance-info').innerHTML = `
+                <h3 class="text-warning mb-2">${stats.activeMaintenanceRequests} Active</h3>
+                <small class="text-muted">${stats.inProgressRequests} in progress</small>
+                <br>
+                <a href="@Url.Action("Create", "MaintenanceRequests")" class="btn btn-warning btn-sm mt-2 quick-action-btn">New Request</a>
+            `;
+
+            document.getElementById('notifications-info').innerHTML = `
+                <h3 class="text-success mb-2">${stats.unreadNotifications} New</h3>
+                <small class="text-muted">${stats.unreadMessages} unread messages</small>
+                <br>
+                <a href="#" class="btn btn-success btn-sm mt-2 quick-action-btn disabled" title="Not implemented">View All</a>
+            `;
+
+            const leaseEl = document.getElementById('lease-info');
+            const daysRemaining = this.calculateDaysRemaining(stats.leaseEndDate);
+            leaseEl.innerHTML = `
+                <h3 class="text-dark mb-2">${stats.leaseStatus}</h3>
+                <small class="text-muted">${daysRemaining} days remaining</small>
+                <br>
+                <a href="#" class="btn btn-outline-dark btn-sm mt-2 quick-action-btn disabled" title="Not implemented">Renew</a>
+            `;
+        } catch (error) {
+            const msg = error && error.message ? error.message : 'Failed to load dashboard stats';
+            ['balance-info', 'maintenance-info', 'notifications-info', 'lease-info'].forEach(id => {
+                this.handleError(id, msg);
+            });
+        }
+    }
+
+    async loadRecentActivity() {
+        try {
+            const activities = await this.api.getRecentActivity();
+            const activityEl = document.getElementById('recent-activity');
+            
+            activityEl.innerHTML = activities && activities.length > 0 ? activities.map(activity => `
+                <div class="notification-item" data-activity-id="${activity.id}">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>${activity.title}</strong>
+                            <p class="mb-0 text-muted">${activity.description}</p>
+                        </div>
+                        <small class="text-muted">${this.formatRelativeTime(activity.createdDate)}</small>
+                    </div>
+                </div>
+            `).join('') : '<p class="text-muted text-center">No recent activity</p>';
+        } catch (error) {
+            this.handleError('recent-activity', 'Failed to load recent activity');
+        }
+    }
+
+    async loadWeatherInfo() {
+        try {
+            const weather = await this.api.getWeatherInfo();
+            document.getElementById('weather-info').innerHTML = `
+                <i class="fas fa-${this.getWeatherIcon(weather.condition)} me-2"></i>
+                <span>${weather.temperature}°F • ${weather.condition}</span>
+            `;
+        } catch (error) {
+            document.getElementById('weather-info').innerHTML = `
+                <i class="fas fa-cloud me-2"></i>
+                <span>Weather unavailable</span>
+            `;
+        }
+    }
+
+    setupEventListeners() {
+        document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
+            tab.addEventListener('shown.bs.tab', async (event) => {
+                await this.loadTabContent(event.target.getAttribute('data-bs-target'));
+            });
+        });
+
+        const maintenanceForm = document.getElementById('maintenance-form');
+        if (maintenanceForm) {
+            maintenanceForm.addEventListener('submit', this.handleMaintenanceSubmission.bind(this));
+        }
+
+        document.addEventListener('click', (event) => {
+            const activityItem = event.target.closest('.notification-item');
+            if (activityItem) {
+                this.handleActivityClick(activityItem.dataset.activityId);
+            }
+        });
+    }
+
+    async loadTabContent(targetId) {
+        switch (targetId) {
+            case '#payments': await this.loadPaymentsTab(); break;
+            case '#maintenance': await this.loadMaintenanceTab(); break;
+            case '#documents': await this.loadDocumentsTab(); break;
+            case '#community': await this.loadCommunityTab(); break;
+        }
+    }
+
+    async loadPaymentsTab() {
+        try {
+            const [paymentHistory, paymentMethods] = await Promise.all([
+                this.api.getPaymentHistory(),
+                this.api.getPaymentMethods()
+            ]);
+
+            const historyEl = document.getElementById('payment-history');
+            historyEl.innerHTML = paymentHistory && paymentHistory.length > 0 ? `
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${paymentHistory.map(payment => `
+                                <tr>
+                                    <td>${this.formatDate(payment.paymentDate)}</td>
+                                    <td>${payment.description}</td>
+                                    <td>${payment.amount.toFixed(2)}</td>
+                                    <td><span class="badge bg-${this.getStatusColor(payment.status)}">${payment.status}</span></td>
+                                    <td>
+                                        <a href="@Url.Action("DownloadReceipt", "Payment")/${payment.id}"
+                                           class="btn btn-sm btn-outline-primary">Receipt</a>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            ` : '<p class="text-muted text-center">No payment history available</p>';
+
+            const methodsEl = document.getElementById('payment-methods');
+            methodsEl.innerHTML = paymentMethods && paymentMethods.length > 0 ? `
+                ${paymentMethods.map(method => `
+                    <div class="d-flex align-items-center mb-3 p-3 border rounded">
+                        <i class="fab fa-cc-${method.cardType.toLowerCase()} fa-2x text-primary me-3"></i>
+                        <div class="flex-grow-1">
+                            <div><strong>${method.maskedCardNumber}</strong></div>
+                            <small class="text-muted">Expires ${method.expiryDate}</small>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="removePaymentMethod(${method.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('')}
+                <button class="btn btn-outline-success w-100 mb-2" onclick="addPaymentMethod()">Add Payment Method</button>
+                <a href="@Url.Action("SetupAutoPay", "Payment")" class="btn btn-success w-100">Set Up Auto-Pay</a>
+            ` : `
+                <p class="text-muted text-center mb-3">No payment methods on file</p>
+                <button class="btn btn-success w-100" onclick="addPaymentMethod()">Add Payment Method</button>
+            `;
+        } catch (error) {
+            this.handleError('payment-history', 'Failed to load payment history');
+            this.handleError('payment-methods', 'Failed to load payment methods');
+        }
+    }
+
+    async loadMaintenanceTab() {
+        try {
+            const requests = await this.api.getMaintenanceRequests();
+            const requestsEl = document.getElementById('maintenance-requests');
+            
+            requestsEl.innerHTML = requests && requests.length > 0 ? requests.map(request => `
+                <div class="maintenance-request mb-3 p-3 border rounded" data-request-id="${request.id}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6>${request.title}</h6>
+                            <p class="text-muted mb-2">${request.description.substring(0, 100)}${request.description.length > 100 ? '...' : ''}</p>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <strong>Category:</strong> ${request.category} |
+                                    <strong>Priority:</strong> ${request.priority} |
+                                    <strong>Submitted:</strong> ${this.formatDate(request.submittedDate)}
+                                </small>
+                            </div>
+                            ${request.assignedTechnician ? `
+                                <div class="mb-2">
+                                    <small class="text-muted">
+                                        <strong>Technician:</strong> ${request.assignedTechnician} |
+                                        <strong>Phone:</strong> ${request.technicianPhone}
+                                    </small>
+                                </div>
+                            ` : ''}
+                            ${request.scheduledDate ? `
+                                <div class="mb-2">
+                                    <small class="text-success">
+                                        <strong>Scheduled:</strong> ${this.formatDateTime(request.scheduledDate)}
+                                    </small>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <span class="maintenance-status status-${request.status.toLowerCase().replace(' ', '-')}">
+                            ${request.status}
+                        </span>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-outline-primary me-2" onclick="viewRequestDetails(${request.id})">View Details</button>
+                        ${request.status === 'Pending' ? `
+                            <button class="btn btn-sm btn-outline-warning" onclick="editRequest(${request.id})">Edit</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('') : '<p class="text-muted text-center">No maintenance requests found</p>';
+        } catch (error) {
+            this.handleError('maintenance-requests', 'Failed to load maintenance requests');
+        }
+    }
+
+    async loadDocumentsTab() {
+        try {
+            const documents = await this.api.getDocuments();
+            const leaseDocsEl = document.getElementById('lease-documents');
+            const formsEl = document.getElementById('available-forms');
+
+            const leaseDocuments = documents.filter(doc => doc.category === 'Lease');
+            const availableForms = documents.filter(doc => doc.category === 'Form');
+
+            leaseDocsEl.innerHTML = leaseDocuments && leaseDocuments.length > 0 ? leaseDocuments.map(doc => `
+                <div class="d-flex align-items-center justify-content-between p-3 border rounded mb-2">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-file-${this.getFileIcon(doc.fileType)} ${this.getFileIconColor(doc.fileType)} fa-2x me-3"></i>
+                        <div>
+                            <div><strong>${doc.fileName}</strong></div>
+                            <small class="text-muted">${doc.fileType.toUpperCase()}, ${this.formatFileSize(doc.fileSize)}</small>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("DownloadDocument", "Documents")/${doc.id}" class="btn btn-sm btn-outline-primary me-2">Download</a>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="viewDocument(${doc.id})">View</button>
+                    </div>
+                </div>
+            `).join('') : '<p class="text-muted text-center">No lease documents available</p>';
+
+            formsEl.innerHTML = availableForms && availableForms.length > 0 ? `
+                <div class="d-grid gap-2">
+                    ${availableForms.map(form => `
+                        <a href="@Url.Action("GetForm", "Documents")/${form.id}" class="btn btn-outline-success">${form.fileName}</a>
+                    `).join('')}
+                </div>
+            ` : `
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("LeaseRenewal", "Forms")" class="btn btn-outline-success">Lease Renewal Application</a>
+                    <a href="@Url.Action("GuestRegistration", "Forms")" class="btn btn-outline-success">Guest Registration Form</a>
+                    <a href="@Url.Action("PetRegistration", "Forms")" class="btn btn-outline-success">Pet Registration Form</a>
+                    <a href="@Url.Action("ParkingRequest", "Forms")" class="btn btn-outline-success">Parking Request Form</a>
+                </div>
+            `;
+        } catch (error) {
+            this.handleError('lease-documents', 'Failed to load documents');
+            this.handleError('available-forms', 'Failed to load forms');
+        }
+    }
+
+    async loadCommunityTab() {
+        try {
+            const [announcements, events, contacts] = await Promise.all([
+                this.api.getAnnouncements(),
+                this.api.getUpcomingEvents(),
+                this.api.getEmergencyContacts()
+            ]);
+
+            const announcementsEl = document.getElementById('announcements');
+            announcementsEl.innerHTML = announcements && announcements.length > 0 ? announcements.map(announcement => `
+                <div class="announcement mb-3 p-3 border-start border-${this.getAnnouncementColor(announcement.priority)} border-5 bg-light">
+                    <h6 class="text-${this.getAnnouncementColor(announcement.priority)}">${announcement.title}</h6>
+                    <p class="mb-1">${announcement.content}</p>
+                    <small class="text-muted">Posted: ${this.formatDate(announcement.postedDate)}</small>
+                    ${announcement.attachments && announcement.attachments.length > 0 ? `
+                        <div class="mt-2">
+                            ${announcement.attachments.map(attachment => `
+                                <a href="@Url.Action("DownloadAttachment", "Community")/${attachment.id}" class="btn btn-sm btn-outline-secondary me-1">
+                                    <i class="fas fa-paperclip"></i> ${attachment.fileName}
+                                </a>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('') : '<p class="text-muted text-center">No announcements at this time</p>';
+
+            const eventsEl = document.getElementById('upcoming-events');
+            eventsEl.innerHTML = events && events.length > 0 ? events.map(event => `
+                <div class="event mb-3">
+                    <div class="d-flex">
+                        <div class="text-center me-3">
+                            <div class="bg-primary text-white rounded p-2" style="min-width: 60px;">
+                                <div style="font-size: 12px;">${this.formatMonth(event.eventDate)}</div>
+                                <div style="font-size: 18px; font-weight: bold;">${this.formatDay(event.eventDate)}</div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6>${event.title}</h6>
+                            <p class="text-muted mb-1 small">${event.location} • ${this.formatTime(event.eventDate)}</p>
+                            ${event.description ? `<p class="text-muted small">${event.description}</p>` : ''}
+                            ${event.requiresRSVP ? `
+                                <button class="btn btn-sm btn-outline-success" onclick="rsvpEvent(${event.id})">RSVP</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('') : '<p class="text-muted text-center">No upcoming events</p>';
+
+            const contactsEl = document.getElementById('emergency-contacts');
+            contactsEl.innerHTML = contacts && contacts.length > 0 ? contacts.map(contact => `
+                <div class="mb-3 p-2 border-start border-warning border-3">
+                    <strong>${contact.title}</strong><br>
+                    <small>
+                        <i class="fas fa-phone me-1 text-warning"></i>${contact.phoneNumber}
+                        ${contact.email ? `<br><i class="fas fa-envelope me-1 text-warning"></i>${contact.email}` : ''}
+                        ${contact.hours ? `<br><i class="fas fa-clock me-1 text-warning"></i>${contact.hours}` : ''}
+                    </small>
+                </div>
+            `).join('') : `
+                <div class="mb-3 p-2 border-start border-warning border-3">
+                    <strong>Management Office</strong><br>
+                    <small><i class="fas fa-phone me-1 text-warning"></i>(+256) 705672545</small>
+                </div>
+                <div class="mb-3 p-2 border-start border-warning border-3">
+                    <strong>Emergency Maintenance</strong><br>
+                    <small><i class="fas fa-phone me-1 text-warning"></i>(+256) 789251487</small>
+                </div>
+                <div class="mb-3 p-2 border-start border-warning border-3">
+                    <strong>Security</strong><br>
+                    <small><i class="fas fa-phone me-1 text-warning"></i>(+256) 705672545</small>
+                </div>
+            `;
+        } catch (error) {
+            this.handleError('announcements', 'Failed to load announcements');
+            this.handleError('upcoming-events', 'Failed to load events');
+            this.handleError('emergency-contacts', 'Failed to load contacts');
+        }
+    }
+
+    async handleMaintenanceSubmission(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const spinner = submitBtn.querySelector('.loading-spinner');
+
+        try {
+            submitBtn.disabled = true;
+            btnText.classList.add('d-none');
+            spinner.classList.remove('d-none');
+
+            const requestData = {
+                category: formData.get('Category'),
+                priority: formData.get('Priority'),
+                title: formData.get('Title'),
+                description: formData.get('Description'),
+                __RequestVerificationToken: formData.get('__RequestVerificationToken')
+            };
+
+            const result = await this.api.submitMaintenanceRequest(requestData);
+
+            if (result.success) {
+                form.reset();
+                this.showSuccess('Maintenance request submitted successfully!');
+                await this.loadMaintenanceTab();
+                await this.loadDashboardStats();
+            } else {
+                const msg = result && result.message ? result.message : 'Failed to submit request';
+                throw new Error(msg);
+            }
+        } catch (error) {
+            const msg = error && error.message ? error.message : 'Failed to submit maintenance request. Please try again.';
+            this.showError(msg);
+            console.error('Maintenance request submission failed:', error);
+        } finally {
+            submitBtn.disabled = false;
+            btnText.classList.remove('d-none');
+            spinner.classList.add('d-none');
+        }
+    }
+
+    setupAutoRefresh() {
+        setInterval(() => this.loadDashboardStats(), 5 * 60 * 1000);
+        setInterval(() => this.loadRecentActivity(), 2 * 60 * 1000);
+    }
+
+    formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    formatDateTime(dateString) {
+        if (!dateString) return 'N/A';
+        return new Date(dateString).toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+    }
+
+    formatTime(dateString) {
+        if (!dateString) return 'N/A';
+        return new Date(dateString).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+    }
+
+    formatMonth(dateString) {
+        if (!dateString) return '';
+        return new Date(dateString).toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    }
+
+    formatDay(dateString) {
+        if (!dateString) return '';
+        return new Date(dateString).getDate();
+    }
+
+    formatRelativeTime(dateString) {
+        if (!dateString) return 'Unknown';
+        const now = new Date();
+        const date = new Date(dateString);
+        const diff = now - date;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        return 'Just now';
+    }
+
+    formatFileSize(bytes) {
+        if (!bytes) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    calculateDaysRemaining(endDate) {
+        if (!endDate) return 0;
+        const today = new Date();
+        const end = new Date(endDate);
+        const diffTime = end - today;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    getStatusColor(status) {
+        return {
+            'Paid': 'success',
+            'Pending': 'warning',
+            'Failed': 'danger',
+            'Cancelled': 'secondary'
+        }[status] || 'secondary';
+    }
+
+    getWeatherIcon(condition) {
+        return {
+            'Sunny': 'sun',
+            'Cloudy': 'cloud',
+            'Rainy': 'cloud-rain',
+            'Snowy': 'snowflake'
+        }[condition] || 'cloud';
+    }
+
+    getFileIcon(fileType) {
+        return {
+            'pdf': 'pdf',
+            'doc': 'word',
+            'docx': 'word',
+            'jpg': 'image',
+            'jpeg': 'image',
+            'png': 'image'
+        }[fileType.toLowerCase()] || 'file';
+    }
+
+    getFileIconColor(fileType) {
+        return {
+            'pdf': 'text-danger',
+            'doc': 'text-primary',
+            'docx': 'text-primary',
+            'jpg': 'text-success',
+            'jpeg': 'text-success',
+            'png': 'text-success'
+        }[fileType.toLowerCase()] || 'text-secondary';
+    }
+
+    getAnnouncementColor(priority) {
+        return {
+            'High': 'warning',
+            'Medium': 'primary',
+            'Low': 'success'
+        }[priority] || 'primary';
+    }
+
+    handleError(elementId, message) {
+        const element = document.getElementById(elementId);
+        if (element) element.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+
+    showError(message) {
+        // show toast and a persistent server error banner
+        this.showToast(message, 'error');
+        const serverErrorEl = document.getElementById('server-error');
+        if (serverErrorEl) serverErrorEl.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+
+    showSuccess(message) {
+        this.showToast(message, 'success');
+    }
+
+    showToast(message, type = 'info') {
+        const toastContainer = document.getElementById('toast-container') || this.createToastContainer();
+        const toast = document.createElement('div');
+        const bgClass = type === 'error' ? 'bg-danger' : 'bg-success';
+        toast.className = `toast align-items-center text-white ${bgClass} border-0`;
+        toast.setAttribute('role', 'alert');
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+        toast.addEventListener('hidden.bs.toast', () => toast.remove());
+    }
+
+    createToastContainer() {
+        const container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container position-fixed top-0 end-0 p-3';
+        container.style.zIndex = '9999';
+        document.body.appendChild(container);
+        return container;
+    }
+
+    handleActivityClick(activityId) {
+        console.log('Activity clicked:', activityId);
+    }
+}
+
+window.removePaymentMethod = async function(methodId) {
+    if (confirm('Are you sure you want to remove this payment method?')) {
+        try {
+            const response = await fetch(`@Url.Action("RemovePaymentMethod", "Payment")/${methodId}`, {
+                method: 'DELETE',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            if (response.ok) {
+                dashboard.showSuccess('Payment method removed successfully');
+                dashboard.loadPaymentsTab();
+            } else {
+                throw new Error('Failed to remove payment method');
+            }
+        } catch (error) {
+            dashboard.showError('Failed to remove payment method');
+        }
+    }
+};
+
+window.addPaymentMethod = function() {
+    window.location.href = '@Url.Action("AddPaymentMethod", "Payment")';
+};
+
+window.viewRequestDetails = function(requestId) {
+    window.location.href = `@Url.Action("Details", "Maintenance")/${requestId}`;
+};
+
+window.editRequest = function(requestId) {
+    window.location.href = `@Url.Action("Edit", "Maintenance")/${requestId}`;
+};
+
+window.viewDocument = function(documentId) {
+    window.open(`@Url.Action("ViewDocument", "Documents")/${documentId}`, '_blank');
+};
+
+window.rsvpEvent = function(eventId) {
+    window.location.href = `@Url.Action("RSVP", "Community")/${eventId}`;
+};
+
+let dashboard;
+document.addEventListener('DOMContentLoaded', function() {
+    dashboard = new TenantDashboard();
+});
+</script>
