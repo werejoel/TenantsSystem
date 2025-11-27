@@ -70,7 +70,6 @@ namespace TenantsManagementApp.Services
                         Description = $"Monthly rent for {forMonth:MMMM yyyy}",
                         DueDate = dueDate,
                         Status = "Pending"
-                        // CreatedAt and UpdatedAt will be set automatically by your UpdateTimestamps method
                     };
 
                     _context.Charges.Add(charge);

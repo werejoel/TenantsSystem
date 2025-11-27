@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Money Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #e0e7ff 50%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: #f3e8ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .provider-card {
+            position: relative;
+            padding: 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .provider-card.selected-mtn {
+            border-color: #fbbf24;
+            background: #fef3c7;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+        }
+
+        .provider-card.selected-airtel {
+            border-color: #ef4444;
+            background: #fee2e2;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .provider-logo {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 0.75rem;
+        }
+
+        .provider-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .provider-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .provider-subtitle {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            display: none;
+        }
+
+        .provider-card.selected-mtn .checkmark,
+        .provider-card.selected-airtel .checkmark {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+        }
+
+        .form-hint {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .amount-input-wrapper {
+            position: relative;
+        }
+
+        .currency-prefix {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .amount-input {
+            padding-left: 4rem;
+        }
+
+        .charges-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .charge-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .charge-item:hover {
+            border-color: #c084fc;
+        }
+
+        .charge-item.selected {
+            border-color: #9333ea;
+            background: #f3e8ff;
+        }
+
+        .charge-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            cursor: pointer;
+            accent-color: #9333ea;
+        }
+
+        .charge-info {
+            flex: 1;
+        }
+
+        .charge-type {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .charge-due {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .charge-amount {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1.125rem;
+        }
+
+        .no-charges {
+            text-align: center;
+            padding: 2rem;
+            background: #f9fafb;
+            border-radius: 12px;
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.5);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .security-notice {
+            background: #dbeafe;
+            border-radius: 16px;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .security-notice svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .security-notice p {
+            font-size: 0.875rem;
+            color: #1e3a8a;
+            line-height: 1.5;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+            </div>
+            <h1>Mobile Money Payment</h1>
+            <p>Quick and secure payment via mobile money</p>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="card">
+            <!-- Provider Selection -->
+            <div class="section-title">Select mobile money provider</div>
+            <div class="provider-grid">
+                <label class="provider-card" id="mtn-card">
+                    <input type="radio" name="provider" value="mtn" id="mtn" checked>
+                    <svg class="provider-logo" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="20" fill="#FFCC00"/>
+                        <path d="M30 35 L35 65 L40 35 L50 65 L60 35 L65 65 L70 35" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <circle cx="50" cy="50" r="35" stroke="#000" stroke-width="3" fill="none"/>
+                    </svg>
+                    <div class="provider-name">MTN</div>
+                    <div class="provider-subtitle">Mobile Money</div>
+                    <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </label>
+
+                <label class="provider-card" id="airtel-card">
+                    <input type="radio" name="provider" value="airtel" id="airtel">
+                    <svg class="provider-logo" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="20" fill="#ED1C24"/>
+                        <path d="M35 65 Q35 35 50 35 Q65 35 65 65" stroke="#FFF" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        <circle cx="50" cy="28" r="4" fill="#FFF"/>
+                        <path d="M30 70 L70 70" stroke="#FFF" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                    <div class="provider-name">Airtel</div>
+                    <div class="provider-subtitle">Money</div>
+                    <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </label>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="section-title">
+                <div class="section-icon">💳</div>
+                Payment details
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Phone number</label>
+                <input type="tel" id="phoneNumber" class="form-control" placeholder="256712345678">
+                <div class="form-hint">International format (e.g., 256712345678)</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Amount (UGX)</label>
+                <div class="amount-input-wrapper">
+                    <span class="currency-prefix">UGX</span>
+                    <input type="number" id="amount" class="form-control amount-input" placeholder="0" min="100" step="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Purpose</label>
+                <select id="purpose" class="form-control">
+                    <option value="Rent">Rent</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Charges Section -->
+            <div class="form-group">
+                <label class="form-label">Charges to pay (optional)</label>
+                <div id="charges-container">
+                    <div class="no-charges">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="margin: 0 auto 0.5rem;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <p>No outstanding charges</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancel</button>
+                <button type="button" id="btnPay" class="btn btn-primary">Pay with Flutterwave</button>
+            </div>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="security-notice">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>Your payment is secured by Flutterwave. You'll receive a prompt on your phone to authorize the transaction.</p>
+        </div>
+    </div>
+
+    <script>
+        // Provider selection
+        const mtnCard = document.getElementById('mtn-card');
+        const airtelCard = document.getElementById('airtel-card');
+        const mtnRadio = document.getElementById('mtn');
+        const airtelRadio = document.getElementById('airtel');
+
+        function updateProviderSelection() {
+            if (mtnRadio.checked) {
+                mtnCard.classList.add('selected-mtn');
+                airtelCard.classList.remove('selected-airtel');
+            } else {
+                airtelCard.classList.add('selected-airtel');
+                mtnCard.classList.remove('selected-mtn');
+            }
+        }
+
+        mtnRadio.addEventListener('change', updateProviderSelection);
+        airtelRadio.addEventListener('change', updateProviderSelection);
+        updateProviderSelection();
+
+        // Sample charges - Replace this with your actual data from ViewBag
+        const sampleCharges = [
+            { id: 1, chargeType: 'Rent', amount: 500000, dueDate: '2025-11-30' },
+            { id: 2, chargeType: 'Water Bill', amount: 45000, dueDate: '2025-11-28' },
+            { id: 3, chargeType: 'Electricity', amount: 78000, dueDate: '2025-11-25' }
+        ];
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-UG', {
+                style: 'currency',
+                currency: 'UGX',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function renderCharges(charges) {
+            const container = document.getElementById('charges-container');
+            
+            if (!charges || charges.length === 0) {
+                container.innerHTML = `
+                    <div class="no-charges">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="margin: 0 auto 0.5rem;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <p>No outstanding charges</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '<div class="charges-list"></div>';
+            const list = container.querySelector('.charges-list');
+
+            charges.forEach(charge => {
+                const item = document.createElement('label');
+                item.className = 'charge-item';
+                item.innerHTML = `
+                    <input type="checkbox" class="charge-checkbox" value="${charge.id}">
+                    <div class="charge-info">
+                        <div class="charge-type">${charge.chargeType}</div>
+                        <div class="charge-due">Due: ${formatDate(charge.dueDate)}</div>
+                    </div>
+                    <div class="charge-amount">${formatCurrency(charge.amount)}</div>
+                `;
+                
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        item.classList.add('selected');
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
+                
+                list.appendChild(item);
+            });
+        }
+
+        // Initialize with sample charges
+        renderCharges(sampleCharges);
+
+        // Payment handling
+        document.getElementById('btnPay').addEventListener('click', async function() {
+            const provider = document.querySelector('input[name="provider"]:checked').value;
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const purpose = document.getElementById('purpose').value;
+
+            if (!phone) {
+                alert('Please enter phone number');
+                return;
+            }
+
+            if (!amount || amount < 100) {
+                alert('Please enter an amount (minimum 100 UGX)');
+                return;
+            }
+
+            const selectedChargeIds = Array.from(document.querySelectorAll('.charge-checkbox:checked'))
+                .map(c => parseInt(c.value));
+
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Processing...';
+
+            // Call server endpoint to initiate the payment
+            try {
+                const payload = {
+                    provider,
+                    phone,
+                    amount,
+                    purpose,
+                    selectedChargeIds
+                };
+
+                const resp = await fetch('/Payment/InitiateMobilePayment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!resp.ok) {
+                    const text = await resp.text();
+                    throw new Error('Server error: ' + text);
+                }
+
+                const data = await resp.json();
+                if (data && data.success) {
+                    alert('Payment initiated! You will receive a prompt on your phone.\nTransaction: ' + (data.transactionReference || 'n/a'));
+                    // Optionally redirect to a payments page or show details
+                    // window.location.href = '/Payments/Details/' + (data.paymentId || '');
+                } else {
+                    throw new Error(data && data.message ? data.message : 'Failed to initiate payment');
+                }
+
+                btn.innerHTML = 'Pay with Flutterwave';
+                btn.disabled = false;
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while initiating payment: ' + (error.message || error));
+                btn.innerHTML = 'Pay with Flutterwave';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

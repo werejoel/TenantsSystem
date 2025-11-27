@@ -28,6 +28,8 @@ namespace TenantsManagementApp.Data
         public DbSet<House> Houses { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
         public DbSet<Charge> Charges { get; set; }
         public DbSet<PaymentCharge> PaymentCharges { get; set; }
         public DbSet<MaintenanceRequest> MaintenanceRequests { get; set; }
@@ -185,6 +187,43 @@ namespace TenantsManagementApp.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
+            // PaymentMethod entity
+            builder.Entity<PaymentMethod>(entity =>
+            {
+                entity.ToTable("PaymentMethods");
+                entity.Property(pm => pm.Name).IsRequired().HasMaxLength(100);
+                entity.Property(pm => pm.Code).HasMaxLength(50);
+                entity.Property(pm => pm.Description).HasMaxLength(500);
+                entity.HasIndex(pm => pm.Code).IsUnique();
+            });
+
+            // PaymentTransaction entity
+            builder.Entity<PaymentTransaction>(entity =>
+            {
+                entity.ToTable("PaymentTransactions");
+                entity.Property(t => t.TxRef).HasMaxLength(255);
+                entity.Property(t => t.FlwRef).HasMaxLength(255);
+                entity.Property(t => t.Amount).HasPrecision(18, 2);
+                entity.Property(t => t.Currency).HasMaxLength(10);
+                entity.Property(t => t.Status).HasMaxLength(50);
+                entity.Property(t => t.Provider).HasMaxLength(50);
+                entity.Property(t => t.CustomerName).HasMaxLength(200);
+                entity.Property(t => t.CustomerEmail).HasMaxLength(200);
+                entity.Property(t => t.CustomerPhone).HasMaxLength(50);
+                entity.HasIndex(t => new { t.TxRef }).IsUnique(false);
+                entity.HasIndex(t => new { t.FlwRef }).IsUnique(false);
+
+                entity.HasOne(t => t.Tenant)
+                      .WithMany()
+                      .HasForeignKey(t => t.TenantId)
+                      .OnDelete(DeleteBehavior.SetNull);
+
+                entity.HasOne(t => t.Payment)
+                      .WithMany()
+                      .HasForeignKey(t => t.PaymentId)
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
+
             // Seed initial Roles using HasData
             var adminRoleId = Guid.Parse("c8d89a25-4b96-4f20-9d79-7f8a54c5213d");
             var userRoleId = Guid.Parse("b92f0a3e-573b-4b12-8db1-2ccf6d58a34a");
@@ -247,6 +286,12 @@ namespace TenantsManagementApp.Data
 
             // Seed sample data for TMS
             SeedTmsData(builder);
+            // Seed default payment methods if not present in migrations yet
+            builder.Entity<PaymentMethod>().HasData(
+                new PaymentMethod { Id = 1, Name = "MTN Mobile Money", Code = "MTN", Description = "MTN Mobile Money (Uganda)", IsActive = true, CreatedAt = new DateTime(2025, 8, 4), UpdatedAt = new DateTime(2025,8,4) },
+                new PaymentMethod { Id = 2, Name = "Airtel Money", Code = "AIRTEL", Description = "Airtel Money (Uganda)", IsActive = true, CreatedAt = new DateTime(2025, 8, 4), UpdatedAt = new DateTime(2025,8,4) },
+                new PaymentMethod { Id = 3, Name = "Bank Transfer", Code = "BANK", Description = "Direct bank transfer", IsActive = true, CreatedAt = new DateTime(2025, 8, 4), UpdatedAt = new DateTime(2025,8,4) }
+            );
         }
 
         private void SeedTmsData(ModelBuilder builder)

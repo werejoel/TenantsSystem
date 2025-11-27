@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TenantsManagementApp.Data;
 using TenantsManagementApp.Models;
+using TenantsManagementApp.Services;
 
 namespace TenantsManagementApp.Controllers
 {
     public class PaymentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPaymentService _paymentService;
 
-        public PaymentsController(ApplicationDbContext context)
+        public PaymentsController(ApplicationDbContext context, IPaymentService paymentService)
         {
             _context = context;
+            _paymentService = paymentService;
         }
 
         // JSON: GET /Payment/GetHistory
@@ -56,8 +59,6 @@ namespace TenantsManagementApp.Controllers
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!Guid.TryParse(userIdClaim, out var userId))
                 return Unauthorized();
-
-            //app doesn't have a PaymentMethods table; return empty list or mocked data
             var methods = new List<object>();
             return Json(methods);
         }
@@ -98,14 +99,105 @@ namespace TenantsManagementApp.Controllers
         {
             var tenants = _context.Tenants.Include(t => t.User).ToList();
             var houses = _context.Houses.ToList();
-
             ViewBag.TenantId = new SelectList(tenants, "Id", "FullName");
             ViewBag.HouseId = new SelectList(houses, "Id", "Name");
             return View();
         }
 
+    // GET: Payment/AddPaymentMethod
+    [HttpGet]
+    [Route("/Payment/AddPaymentMethod")]
+    public async Task<IActionResult> AddPaymentMethod()
+        {
+            // Resolve tenant from current user
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return RedirectToAction("Index", "Home");
+            var tenant = await _context.Tenants.Include(t => t.User).FirstOrDefaultAsync(t => t.UserId == userId && t.IsActive);
+            if (tenant == null)
+            {
+                TempData["ErrorMessage"] = "Tenant profile not found.";
+                return RedirectToAction("Index", "Home");
+            }
 
+            // Load outstanding charges for the tenant to allow selection
+            var charges = await _context.Charges
+                .Where(c => c.TenantId == tenant.Id && c.Status != "Paid")
+                .OrderBy(c => c.DueDate)
+                .AsNoTracking()
+                .ToListAsync();
 
+            // Provide minimal data to the view via ViewBag
+            ViewBag.TenantId = tenant.Id;
+            ViewBag.HouseId = tenant.HouseId ?? 0;
+            ViewBag.PhoneNumber = tenant.User?.PhoneNumber ?? string.Empty;
+            ViewBag.Charges = charges;
+
+            return View();
+        }
+
+        // POST: /Payment/InitiateMobilePayment
+        // Accepts a JSON payload from the client to initiate a mobile money payment.
+        // Returns JSON: { success: bool, message: string, transactionReference?: string, paymentId?: int }
+        [HttpPost]
+        [Route("/Payment/InitiateMobilePayment")]
+        public async Task<IActionResult> InitiateMobilePayment([FromBody] InitiatePaymentDto dto)
+        {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return Unauthorized(new { success = false, message = "Unauthorized" });
+
+            var tenant = await _context.Tenants.FirstOrDefaultAsync(t => t.UserId == userId && t.IsActive);
+            if (tenant == null)
+                return BadRequest(new { success = false, message = "Tenant not found" });
+
+            try
+            {
+                //call the payment provider (Flutterwave)
+                // with a generated transaction reference and return it to the client.
+                var txRef = Guid.NewGuid().ToString();
+
+                // Build the internal InitiatePaymentRequest used by PaymentService
+                if (!tenant.HouseId.HasValue || tenant.HouseId.Value <= 0)
+                {
+                    return BadRequest(new { success = false, message = "Tenant is not assigned to a house. Cannot create payment." });
+                }
+
+                var req = new TenantsManagementApp.Models.FlutterWave.InitiatePaymentRequest
+                {
+                    TenantId = tenant.Id,
+                    HouseId = tenant.HouseId.Value,
+                    AmountPaid = dto.Amount,
+                    PaymentDate = DateTime.Now,
+                    Provider = dto.Provider ?? "",
+                    Purpose = dto.Purpose ?? string.Empty,
+                    PeriodStart = null,
+                    PeriodEnd = null,
+                    Notes = dto.Purpose,
+                    RedirectUrl = null,
+                    ChargeIds = dto.SelectedChargeIds ?? new List<int>()
+                };
+
+                // Use PaymentService which calls FlutterwaveService internally and persist payment
+                var payment = await _paymentService.CreatePaymentAsync(req);
+                return Json(new { success = true, message = "Payment initiated", transactionReference = payment.TransactionReference, paymentId = payment.Id });
+            }
+            catch (Exception ex)
+            {
+                // Log full exception for debugging
+                Console.WriteLine("InitiateMobilePayment error: " + ex.ToString());
+                return StatusCode(500, new { success = false, message = "An error occurred while initiating payment" });
+            }
+        }
+
+        public class InitiatePaymentDto
+        {
+            public string? Provider { get; set; }
+            public string? Phone { get; set; }
+            public decimal Amount { get; set; }
+            public string? Purpose { get; set; }
+            public List<int> SelectedChargeIds { get; set; } = new List<int>();
+        }
         // POST: Payments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,7 +205,6 @@ namespace TenantsManagementApp.Controllers
         {
             var tenants = _context.Tenants.Include(t => t.User).ToList();
             var houses = _context.Houses.ToList();
-
             ViewBag.TenantId = new SelectList(tenants, "Id", "FullName", payment.TenantId);
             ViewBag.HouseId = new SelectList(houses, "Id", "Name", payment.HouseId);
             payment.CreatedAt = DateTime.Now;
@@ -129,8 +220,6 @@ namespace TenantsManagementApp.Controllers
             TempData["ErrorMessage"] = "Invalid payment data. Please check the form and try again.";
             return View(payment);
         }
-
-
 
 
         // GET: Payments/Edit/5
@@ -170,10 +259,8 @@ namespace TenantsManagementApp.Controllers
             {
                 return NotFound();
             }
-
             var tenants = _context.Tenants.Include(t => t.User).AsNoTracking().ToList();
             var houses = _context.Houses.AsNoTracking().ToList();
-
             ViewBag.TenantId = new SelectList(tenants, "Id", "FullName", payment.TenantId);
             ViewBag.HouseId = new SelectList(houses, "Id", "Name", payment.HouseId);
 

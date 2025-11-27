@@ -827,3 +827,4 @@ C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo\bin\De
 C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo\bin\Debug\net8.0\tr-TR\Hangfire.Core.resources.dll
 C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo\bin\Debug\net8.0\zh-TW\Hangfire.Core.resources.dll
 C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo\bin\Debug\net8.0\zh\Hangfire.Core.resources.dll
+C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

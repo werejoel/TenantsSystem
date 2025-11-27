@@ -38,10 +38,6 @@ namespace TenantsManagementApp
                 if (!string.IsNullOrWhiteSpace(search))
                 {
                     search = search.Trim();
-                    // NOTE:
-                    // Contains translates to SQL LIKE '%search%'.
-                    // This is user-friendly for admins and fine for moderate datasets.
-                    // For very large tables, consider full-text search.
                     query = query.Where(c =>
                     c.ClaimType.Contains(search) ||
                     c.ClaimValue.Contains(search) ||
@@ -82,7 +78,6 @@ namespace TenantsManagementApp
             {
                 _logger.LogError(ex, "Error fetching paged claims (search: {Search}, category: {Category}, page: {Page}, size: {Size})",
                 search, category, pageNumber, pageSize);
-                // Fail soft: return empty page but preserve requested paging info.
                 return new PagedResult<ClaimListItemViewModel>
                 {
                     Items = Array.Empty<ClaimListItemViewModel>(),

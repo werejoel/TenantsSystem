@@ -17,353 +17,357 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TenantsManagementApp
 build_property.RootNamespace = TenantsManagementApp
-build_property.ProjectDir = C:\Users\programming\source\repos\TenantsManagementSystemApp\identityDemo\
+build_property.ProjectDir = C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\programming\source\repos\TenantsManagementSystemApp\identityDemo
+build_property.MSBuildProjectDirectory = C:\Users\programming\source\repos\TenantsManagementSystemApp\IdentityDemo
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/AccessDenied.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/ConfirmEmailCode.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/ConfirmEmailCode.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDb25maXJtRW1haWxDb2RlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/EmailConfirmed.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/EmailConfirmed.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFbWFpbENvbmZpcm1lZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/Login.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/Profile.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/Register.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/RegistrationConfirmation.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/RegistrationConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RyYXRpb25Db25maXJtYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/ResendEmailConfirmation.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/ResendEmailConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNlbmRFbWFpbENvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Account/ResendEmailConfirmationSuccess.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Account/ResendEmailConfirmationSuccess.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNlbmRFbWFpbENvbmZpcm1hdGlvblN1Y2Nlc3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Addresses/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Addresses/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Addresses/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Addresses/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Addresses/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Addresses/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Addresses/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Addresses/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Addresses/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Addresses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Charges/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Charges/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhcmdlc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Charges/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Charges/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhcmdlc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Charges/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Charges/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhcmdlc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Charges/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Charges/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhcmdlc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Charges/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Charges/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhcmdlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Claims/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Claims/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Claims/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Claims/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Claims/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Claims/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Claims/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Claims/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Home/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Home/NonSecureMethod.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Home/NonSecureMethod.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb25TZWN1cmVNZXRob2QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Home/Privacy.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Home/SecureMethod.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Home/SecureMethod.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZWN1cmVNZXRob2QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Houses/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Houses/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG91c2VzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Houses/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Houses/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG91c2VzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Houses/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Houses/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG91c2VzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Houses/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Houses/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG91c2VzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Houses/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Houses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG91c2VzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/LandlordDashboard/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/LandlordDashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFuZGxvcmREYXNoYm9hcmRcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Landlords/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Landlords/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFuZGxvcmRzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Landlords/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Landlords/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFuZGxvcmRzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Landlords/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Landlords/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFuZGxvcmRzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Landlords/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Landlords/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFuZGxvcmRzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Landlords/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Landlords/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFuZGxvcmRzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/MaintenanceRequests/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/MaintenanceRequests/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpbnRlbmFuY2VSZXF1ZXN0c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/MaintenanceRequests/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/MaintenanceRequests/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpbnRlbmFuY2VSZXF1ZXN0c1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/MaintenanceRequests/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/MaintenanceRequests/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpbnRlbmFuY2VSZXF1ZXN0c1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/MaintenanceRequests/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/MaintenanceRequests/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpbnRlbmFuY2VSZXF1ZXN0c1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/MaintenanceRequests/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/MaintenanceRequests/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpbnRlbmFuY2VSZXF1ZXN0c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Notifications/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Notifications/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Notifications/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Notifications/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Notifications/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Notifications/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Notifications/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Notifications/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Notifications/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Notifications/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentCharges/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentCharges/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudENoYXJnZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentCharges/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentCharges/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudENoYXJnZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentCharges/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentCharges/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudENoYXJnZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentCharges/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentCharges/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudENoYXJnZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentCharges/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentCharges/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudENoYXJnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentsWave/Callback.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentsWave/Callback.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNXYXZlXENhbGxiYWNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/PaymentsWave/create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/PaymentsWave/create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNXYXZlXGNyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Payments/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Payments/AddPaymentMethod.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcQWRkUGF5bWVudE1ldGhvZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Payments/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Payments/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Payments/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Payments/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Payments/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Payments/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Payments/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Payments/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Payments/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Roles/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Roles/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Roles/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Roles/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Roles/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Roles/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Roles/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Roles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Roles/ManageClaims.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Roles/ManageClaims.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcTWFuYWdlQ2xhaW1zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Roles/ManageUsers.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Roles/ManageUsers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcTWFuYWdlVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Shared/Error.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Shared/_Pager.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Shared/_Pager.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QYWdlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/TenantsDashboard/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/TenantsDashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c0Rhc2hib2FyZFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Tenants/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Tenants/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Tenants/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Tenants/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Tenants/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Tenants/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Tenants/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Tenants/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Tenants/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Tenants/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/Create.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/Delete.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/Details.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/Edit.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/Index.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/ManageClaims.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/ManageClaims.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcTWFuYWdlQ2xhaW1zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Users/ManageRoles.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Users/ManageRoles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcTWFuYWdlUm9sZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/_ViewImports.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/_ViewStart.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/programming/source/repos/TenantsManagementSystemApp/identityDemo/Views/Shared/_Layout.cshtml]
+[C:/Users/programming/source/repos/TenantsManagementSystemApp/IdentityDemo/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-a6guoa0tf8

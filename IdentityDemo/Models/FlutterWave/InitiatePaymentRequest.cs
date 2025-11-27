@@ -10,8 +10,10 @@ namespace TenantsManagementApp.Models.FlutterWave
         public int HouseId { get; set; }
         [Required] 
         public decimal AmountPaid { get; set; }
+        [Required]
+        public string Provider { get; set; }
         [Required] 
-        public string Purpose { get; set; } // e.g., "Rent", "Utilities"
+        public string Purpose { get; set; }
         [Required]
         public DateTime PaymentDate { get; set; }
         public DateTime? PeriodStart { get; set; }

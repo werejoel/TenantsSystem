@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OQ/9dqQKx14=",
+  "dgSpecHash": "WZxB93luBCc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\programming\\source\\repos\\TenantsManagementSystemApp\\identityDemo\\TenantsManagementApp.csproj",
+  "projectFilePath": "C:\\Users\\programming\\source\\repos\\TenantsManagementSystemApp\\IdentityDemo\\TenantsManagementApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\programming\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\programming\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

@@ -46,10 +46,20 @@ public class FlutterwaveService
             .ToListAsync();
         if (!charges.Any()) throw new Exception("No valid charges selected");
 
+        // determine network string expected by Flutterwave
+        string network = "MTN";
+        if (!string.IsNullOrEmpty(request.Provider))
+        {
+            var p = request.Provider.Trim().ToLowerInvariant();
+            if (p == "airtel" || p == "airtelug") network = "AIRTEL";
+            else if (p == "mtn" || p == "mtnug") network = "MTN";
+            else network = p.ToUpperInvariant();
+        }
+
         var payload = new
         {
             phone_number = tenant.User.PhoneNumber,
-            network = "MTN",
+            network = network,
             amount = request.AmountPaid,
             currency = "UGX",
             email = tenant.User.Email,
@@ -60,6 +70,7 @@ public class FlutterwaveService
                 tenant_id = request.TenantId,
                 house_id = request.HouseId,
                 purpose = request.Purpose,
+                provider = request.Provider,
                 period_start = request.PeriodStart?.ToString("o"),
                 period_end = request.PeriodEnd?.ToString("o"),
                 charge_ids = request.ChargeIds
@@ -85,7 +96,7 @@ public class FlutterwaveService
                 HouseId = request.HouseId,
                 AmountPaid = request.AmountPaid,
                 PaymentDate = request.PaymentDate,
-                PaymentMethod = "MTN Mobile Money",
+                PaymentMethod = (string.IsNullOrEmpty(request.Provider) ? "Mobile Money" : request.Provider.ToUpperInvariant() + " Mobile Money"),
                 TransactionReference = chargeResponse.Data.TxRef,
                 PeriodStart = request.PeriodStart,
                 PeriodEnd = request.PeriodEnd,

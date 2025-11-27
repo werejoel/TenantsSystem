@@ -12,27 +12,27 @@ namespace TenantsManagementApp.Data
         {
             ["Admin"] = new List<(string, string, string, DateTime)>
         {
-("Pranav", "Sharma", "9876543210", new DateTime(1985, 5, 12)),
-("Aditi", "Verma", "9123456789", new DateTime(1990, 3, 8)),
-("Rohan", "Iyer", "9988776655", new DateTime(1988, 7, 21)),
-("Neha", "Chopra", "9012345678", new DateTime(1992, 11, 15)),
-("Kunal", "Reddy", "9765432109", new DateTime(1986, 9, 30))
+            ("Pranav", "Sharma", "9876543210", new DateTime(1985, 5, 12)),
+            ("Aditi", "Verma", "9123456789", new DateTime(1990, 3, 8)),
+            ("Rohan", "Iyer", "9988776655", new DateTime(1988, 7, 21)),
+            ("Neha", "Chopra", "9012345678", new DateTime(1992, 11, 15)),
+            ("Kunal", "Reddy", "9765432109", new DateTime(1986, 9, 30))
         },
             ["Manager"] = new List<(string, string, string, DateTime)>
         {
-("Arjun", "Mehta", "9823456780", new DateTime(1984, 4, 17)),
-("Sneha", "Kapoor", "9345678901", new DateTime(1991, 6, 9)),
-("Vikram", "Patel", "9456789012", new DateTime(1989, 1, 25)),
-("Pooja", "Nair", "9567890123", new DateTime(1993, 8, 14)),
-("Anil", "Deshmukh", "9678901234", new DateTime(1987, 2, 19))
+            ("Arjun", "Mehta", "9823456780", new DateTime(1984, 4, 17)),
+            ("Sneha", "Kapoor", "9345678901", new DateTime(1991, 6, 9)),
+            ("Vikram", "Patel", "9456789012", new DateTime(1989, 1, 25)),
+            ("Pooja", "Nair", "9567890123", new DateTime(1993, 8, 14)),
+            ("Anil", "Deshmukh", "9678901234", new DateTime(1987, 2, 19))
         },
             ["User"] = new List<(string, string, string, DateTime)>
         {
-("Rahul", "Singh", "9789012345", new DateTime(1994, 12, 4)),
-("Priya", "Menon", "9890123456", new DateTime(1995, 10, 22)),
-("Siddharth", "Joshi", "9901234567", new DateTime(1992, 9, 18)),
-("Ananya", "Pillai", "9812345678", new DateTime(1996, 5, 5)),
-("Manoj", "Bose", "9923456789", new DateTime(1991, 3, 29))
+            ("Rahul", "Singh", "9789012345", new DateTime(1994, 12, 4)),
+            ("Priya", "Menon", "9890123456", new DateTime(1995, 10, 22)),
+            ("Siddharth", "Joshi", "9901234567", new DateTime(1992, 9, 18)),
+            ("Ananya", "Pillai", "9812345678", new DateTime(1996, 5, 5)),
+            ("Manoj", "Bose", "9923456789", new DateTime(1991, 3, 29))
         }
         };
         public static async Task SeedUsersAsync(IServiceProvider services)
@@ -72,7 +72,7 @@ namespace TenantsManagementApp.Data
                     FirstName = firstName,
                     LastName = lastName,
                     PhoneNumber = phone,
-                    DateOfBirth = dob, // Ensure this property exists in ApplicationUser
+                    DateOfBirth = dob,
                     IsActive = true,
                     CreatedOn = DateTime.UtcNow,
                     ModifiedOn = DateTime.UtcNow

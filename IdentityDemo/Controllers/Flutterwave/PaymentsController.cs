@@ -39,7 +39,6 @@ public class FlutterwavePaymentsController : Controller
 
     // POST: Initiate Payment
     [HttpPost("initiate")]
-    [Authorize(Policy = "AddUserPolicy")]
     public async Task<IActionResult> InitiatePayment([FromBody] InitiatePaymentRequest request)
     {
         if (!ModelState.IsValid)

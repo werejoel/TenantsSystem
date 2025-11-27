@@ -49,7 +49,6 @@ namespace TenantsManagementApp.Services
 
 
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
             if (!result.Succeeded)
                 return result;
 
