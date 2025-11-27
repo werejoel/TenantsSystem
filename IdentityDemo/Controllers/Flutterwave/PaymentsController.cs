@@ -159,6 +159,20 @@ public class FlutterwavePaymentsController : Controller
             }
             await _dbContext.SaveChangesAsync();
 
+            // Update or create PaymentTransaction record with verification details
+            var transaction = await _dbContext.PaymentTransactions
+                .FirstOrDefaultAsync(t => t.TxRef == webhookData.Data.TxRef);
+            if (transaction != null)
+            {
+                transaction.FlwRef = verification.Data.FlwRef;
+                transaction.Status = verification.Data.Status;
+                transaction.Verified = true;
+                transaction.RawResponse = System.Text.Json.JsonSerializer.Serialize(verification);
+                _dbContext.PaymentTransactions.Update(transaction);
+                await _dbContext.SaveChangesAsync();
+                _logger.LogInformation("Updated PaymentTransaction for tx_ref: {TxRef}, flw_ref: {FlwRef}", webhookData.Data.TxRef, verification.Data.FlwRef);
+            }
+
             // Notify tenant
             try
             {

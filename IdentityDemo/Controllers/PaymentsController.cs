@@ -104,10 +104,10 @@ namespace TenantsManagementApp.Controllers
             return View();
         }
 
-    // GET: Payment/AddPaymentMethod
-    [HttpGet]
-    [Route("/Payment/AddPaymentMethod")]
-    public async Task<IActionResult> AddPaymentMethod()
+        // GET: Payment/AddPaymentMethod
+        [HttpGet]
+        [Route("/Payment/AddPaymentMethod")]
+        public async Task<IActionResult> AddPaymentMethod()
         {
             // Resolve tenant from current user
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -136,6 +136,107 @@ namespace TenantsManagementApp.Controllers
             return View();
         }
 
+        // GET: /Payment/GetTenantCharges (JSON API)
+        [HttpGet]
+        [Route("/Payment/GetTenantCharges")]
+        public async Task<IActionResult> GetTenantCharges()
+        {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return Unauthorized();
+
+            var tenant = await _context.Tenants
+                .Include(t => t.Charges)
+                .FirstOrDefaultAsync(t => t.UserId == userId && t.IsActive);
+            if (tenant == null)
+                return Json(new List<object>());
+
+            // Load outstanding charges for the tenant
+            var charges = await _context.Charges
+                .Where(c => c.TenantId == tenant.Id && c.Status != "Paid")
+                .OrderBy(c => c.DueDate)
+                .AsNoTracking()
+                .Select(c => new
+                {
+                    id = c.Id,
+                    chargeType = c.ChargeType,
+                    amount = c.Amount,
+                    dueDate = c.DueDate.ToString("yyyy-MM-dd"),
+                    description = c.Description,
+                    status = c.Status
+                })
+                .ToListAsync();
+
+            Console.WriteLine($"[GetTenantCharges] Tenant ID: {tenant.Id}, Charges found: {charges.Count}");
+            return Json(charges);
+        }
+
+        // POST: /Payment/CreateTestCharge (For testing - creates a test charge for current tenant)
+        [HttpPost]
+        [Route("/Payment/CreateTestCharge")]
+        public async Task<IActionResult> CreateTestCharge()
+        {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return Unauthorized(new { success = false, message = "Unauthorized" });
+
+            var tenant = await _context.Tenants.FirstOrDefaultAsync(t => t.UserId == userId && t.IsActive);
+            if (tenant == null)
+                return BadRequest(new { success = false, message = "Tenant not found" });
+
+            // Get or create a house
+            var house = await _context.Houses.FirstOrDefaultAsync();
+            if (house == null)
+            {
+                return BadRequest(new { success = false, message = "No houses found in the system. Please create a house first." });
+            }
+
+            // Create test charges
+            var testCharges = new List<Charge>
+            {
+                new Charge
+                {
+                    TenantId = tenant.Id,
+                    HouseId = house.Id,
+                    ChargeType = "Rent - December",
+                    Amount = 850000,
+                    DueDate = DateTime.Now.AddDays(5),
+                    Status = "Pending",
+                    Description = "Monthly rent charge",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new Charge
+                {
+                    TenantId = tenant.Id,
+                    HouseId = house.Id,
+                    ChargeType = "Water Bill",
+                    Amount = 48000,
+                    DueDate = DateTime.Now.AddDays(3),
+                    Status = "Pending",
+                    Description = "Monthly water consumption",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new Charge
+                {
+                    TenantId = tenant.Id,
+                    HouseId = house.Id,
+                    ChargeType = "Electricity Bill",
+                    Amount = 92000,
+                    DueDate = DateTime.Now.AddDays(7),
+                    Status = "Pending",
+                    Description = "Monthly electricity consumption",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                }
+            };
+
+            _context.Charges.AddRange(testCharges);
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, message = $"Created {testCharges.Count} test charges", chargeIds = testCharges.Select(c => c.Id).ToList() });
+        }        
         // POST: /Payment/InitiateMobilePayment
         // Accepts a JSON payload from the client to initiate a mobile money payment.
         // Returns JSON: { success: bool, message: string, transactionReference?: string, paymentId?: int }
@@ -153,20 +254,33 @@ namespace TenantsManagementApp.Controllers
 
             try
             {
+                // Get the charges to extract HouseId from them
+                var charges = await _context.Charges
+                    .Where(c => dto.SelectedChargeIds.Contains(c.Id) && c.TenantId == tenant.Id && c.Status != "Paid")
+                    .ToListAsync();
+
+                if (!charges.Any())
+                {
+                    return BadRequest(new { success = false, message = "No valid charges selected for payment." });
+                }
+
+                // Extract HouseId from the first charge (all charges for a tenant should be from the same house)
+                int houseId = charges.First().HouseId;
+
+                // Verify all charges are from the same house
+                if (charges.Any(c => c.HouseId != houseId))
+                {
+                    return BadRequest(new { success = false, message = "Selected charges are from different houses. Please select charges from the same house." });
+                }
+
                 //call the payment provider (Flutterwave)
                 // with a generated transaction reference and return it to the client.
                 var txRef = Guid.NewGuid().ToString();
 
-                // Build the internal InitiatePaymentRequest used by PaymentService
-                if (!tenant.HouseId.HasValue || tenant.HouseId.Value <= 0)
-                {
-                    return BadRequest(new { success = false, message = "Tenant is not assigned to a house. Cannot create payment." });
-                }
-
                 var req = new TenantsManagementApp.Models.FlutterWave.InitiatePaymentRequest
                 {
                     TenantId = tenant.Id,
-                    HouseId = tenant.HouseId.Value,
+                    HouseId = houseId,
                     AmountPaid = dto.Amount,
                     PaymentDate = DateTime.Now,
                     Provider = dto.Provider ?? "",
@@ -185,8 +299,13 @@ namespace TenantsManagementApp.Controllers
             catch (Exception ex)
             {
                 // Log full exception for debugging
-                Console.WriteLine("InitiateMobilePayment error: " + ex.ToString());
-                return StatusCode(500, new { success = false, message = "An error occurred while initiating payment" });
+                Console.WriteLine($"[InitiateMobilePayment] Error: {ex.Message}");
+                Console.WriteLine($"[InitiateMobilePayment] Stack trace: {ex.StackTrace}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"[InitiateMobilePayment] Inner exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(500, new { success = false, message = $"An error occurred: {ex.Message}" });
             }
         }
 

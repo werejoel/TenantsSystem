@@ -26,10 +26,12 @@ public class FlutterwaveService
         _secretKey = configuration["Flutterwave:SecretKey"];
         _webhookSecret = configuration["Flutterwave:WebhookSecret"];
         _dbContext = dbContext;
+        
+        Console.WriteLine($"[FlutterwaveService] Initializing with SecretKey: {(_secretKey?.Substring(0, Math.Min(10, _secretKey?.Length ?? 0)) ?? "NULL")}...");
+        
         _httpClient.DefaultRequestHeaders.Authorization =
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _secretKey);
     }
-
     public async Task<ChargeResponse> InitiatePaymentAsync(InitiatePaymentRequest request)
     {
         var tenant = await _dbContext.Tenants
@@ -56,6 +58,7 @@ public class FlutterwaveService
             else network = p.ToUpperInvariant();
         }
 
+        var txRef = Guid.NewGuid().ToString();
         var payload = new
         {
             phone_number = tenant.User.PhoneNumber,
@@ -63,7 +66,7 @@ public class FlutterwaveService
             amount = request.AmountPaid,
             currency = "UGX",
             email = tenant.User.Email,
-            tx_ref = Guid.NewGuid().ToString(),
+            tx_ref = txRef,
             redirect_url = request.RedirectUrl,
             meta = new
             {
@@ -80,52 +83,58 @@ public class FlutterwaveService
         var json = JsonSerializer.Serialize(payload);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await _httpClient.PostAsync(
-            "https://api.flutterwave.com/v3/charges?type=mobile_money_uganda", content);
-
-        var result = await response.Content.ReadAsStringAsync();
-        var chargeResponse = JsonSerializer.Deserialize<ChargeResponse>(
-            result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-        if (chargeResponse?.Status == "success")
+        try
         {
-            // Save payment record
-            var payment = new Payment
-            {
-                TenantId = request.TenantId,
-                HouseId = request.HouseId,
-                AmountPaid = request.AmountPaid,
-                PaymentDate = request.PaymentDate,
-                PaymentMethod = (string.IsNullOrEmpty(request.Provider) ? "Mobile Money" : request.Provider.ToUpperInvariant() + " Mobile Money"),
-                TransactionReference = chargeResponse.Data.TxRef,
-                PeriodStart = request.PeriodStart,
-                PeriodEnd = request.PeriodEnd,
-                Notes = request.Notes
-            };
-            _dbContext.Payments.Add(payment);
-            await _dbContext.SaveChangesAsync();
+            var response = await _httpClient.PostAsync(
+                "https://api.flutterwave.com/v3/charges?type=mobile_money_uganda", content);
 
-            // Link payment to charges
-            foreach (var chargeId in request.ChargeIds)
+            var result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"[FlutterwaveService] HTTP Status Code: {response.StatusCode}");
+            Console.WriteLine($"[FlutterwaveService] API Response Body: {result}");
+
+            var chargeResponse = JsonSerializer.Deserialize<ChargeResponse>(
+                result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (chargeResponse?.Status == "success")
             {
-                var charge = charges.FirstOrDefault(c => c.Id == chargeId);
-                if (charge != null)
+                // NOTE: Payment record should be created by PaymentService, NOT here
+                // Only create PaymentTransaction for audit trail
+                
+                // Save PaymentTransaction record for audit trail (with provisional data)
+                var txn = new PaymentTransaction
                 {
-                    var paymentCharge = new PaymentCharge
-                    {
-                        PaymentId = payment.Id,
-                        ChargeId = chargeId,
-                        AmountPaid = Math.Min(charge.OutstandingAmount, request.AmountPaid)
-                    };
-                    _dbContext.PaymentCharges.Add(paymentCharge);
-                    request.AmountPaid -= paymentCharge.AmountPaid; // Reduce remaining amount
-                    if (charge.OutstandingAmount <= 0) charge.Status = "Paid";
-                }
+                    TxRef = chargeResponse.Data.TxRef,
+                    FlwRef = chargeResponse.Data.FlwRef ?? "pending",
+                    Amount = request.AmountPaid,
+                    Currency = "UGX",
+                    Status = chargeResponse.Status,
+                    Provider = request.Provider ?? "MTN",
+                    TenantId = request.TenantId,
+                    PaymentId = null, // Will be set later after Payment is created
+                    CustomerName = tenant.User?.FullName,
+                    CustomerEmail = tenant.User?.Email,
+                    CustomerPhone = tenant.User?.PhoneNumber,
+                    PaymentDate = DateTime.UtcNow,
+                    Verified = false,
+                    RawResponse = JsonSerializer.Serialize(chargeResponse)
+                };
+                _dbContext.PaymentTransactions.Add(txn);
+                await _dbContext.SaveChangesAsync();
+                
+                Console.WriteLine($"[FlutterwaveService] PaymentTransaction created: {txn.Id}");
             }
-            await _dbContext.SaveChangesAsync();
-        }
+            else
+            {
+                Console.WriteLine($"[FlutterwaveService] API returned non-success status: {chargeResponse?.Status}, Message: {chargeResponse?.Message}");
+            }
 
-        return chargeResponse;
+            return chargeResponse;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[FlutterwaveService] Exception in InitiatePaymentAsync: {ex}");
+            throw;
+        }
     }
 
     public async Task<VerificationResponse> VerifyTransactionAsync(string transactionId)

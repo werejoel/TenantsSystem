@@ -20,6 +20,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "TenantsManagementApp.Controllers.DataSeedingController",
+    "Method": "SeedTestCharges",
+    "RelativePath": "api/DataSeeding/seed-test-charges",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "TenantsManagementApp.Controllers.FlutterwavePaymentsController",
     "Method": "InitiatePayment",
     "RelativePath": "api/FlutterwavePayments/initiate",
