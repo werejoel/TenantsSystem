@@ -774,7 +774,7 @@ namespace TenantsManagementApp.Controllers
                     {
                         Id = p.Id,
                         Title = "Payment Received",
-                        Description = $"Payment of ${p.AmountPaid} received from {p.Tenant.FullName}",
+                        Description = $"Payment of UGX {p.AmountPaid:N2} received from {p.Tenant.FullName}",
                         ActivityDate = p.PaymentDate,
                         ActivityType = "Payment",
                         RelatedEntityId = p.Id.ToString(),
