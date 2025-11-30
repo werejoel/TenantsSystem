@@ -6,21 +6,26 @@
 <style>
     :root {
         --primary-color: #2563eb;
+        --primary-light: #eff6ff;
+        --primary-dark: #1e40af;
         --success-color: #10b981;
         --warning-color: #f59e0b;
         --danger-color: #ef4444;
-        --bg-light:   #ffffff;
-        --border-color: #ffffff;
+        --danger-dark: #dc2626;
+        --bg-light: #f9fafb;
+        --bg-white: #ffffff;
+        --border-color: #e5e7eb;
         --text-primary: #111827;
         --text-secondary: #6b7280;
-        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-        --transition: all 0.3s ease;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         --border-radius: 12px;
         --spacing-sm: clamp(0.5rem, 1vw, 0.75rem);
         --spacing-md: clamp(0.75rem, 1.5vw, 1rem);
         --spacing-lg: clamp(1rem, 2vw, 1.5rem);
-        --sidebar-width: 260px;
+        --sidebar-width: 270px;
     }
 
     * {
@@ -33,22 +38,26 @@
         background-color: var(--bg-light);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         color: var(--text-primary);
-        line-height: 1.5;
+        line-height: 1.6;
         display: flex;
         flex-direction: row;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     .sidebar-wrapper {
         width: var(--sidebar-width);
-        background: white;
+        background: var(--bg-white);
         border-right: 1px solid var(--border-color);
         height: 100vh;
         position: fixed;
         left: 0;
         top: 0;
         overflow-y: auto;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
         z-index: 1000;
+        display: flex;
+        flex-direction: column;
     }
 
     .sidebar-header {
@@ -57,20 +66,22 @@
         display: flex;
         align-items: center;
         gap: var(--spacing-md);
-        min-height: 80px;
+        min-height: 75px;
+        flex-shrink: 0;
     }
 
     .sidebar-logo {
         width: 40px;
         height: 40px;
         border-radius: 8px;
-        background: linear-gradient(135deg, var(--primary-color), #ffffff);
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         font-weight: 700;
         font-size: 1.25rem;
+        flex-shrink: 0;
     }
 
     .sidebar-title {
@@ -87,6 +98,8 @@
     .sidebar-nav {
         padding: var(--spacing-md) 0;
         list-style: none;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .nav-section {
@@ -116,14 +129,14 @@
     }
 
     .nav-link:hover {
-        background-color: var(--bg-light);
+        background-color: var(--primary-light);
         color: var(--primary-color);
     }
 
     .nav-link.active {
         color: var(--primary-color);
-        background-color: #ffffff;
-        border-right: 3px solid var(--primary-color);
+        background-color: var(--primary-light);
+        border-right: 4px solid var(--primary-color);
     }
 
     .nav-link.active::before {
@@ -155,18 +168,20 @@
     }
 
     .sidebar-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
         padding: var(--spacing-md);
         border-top: 1px solid var(--border-color);
-        background: white;
+        background: var(--bg-white);
+        flex-shrink: 0;
+    }
+
+    .sidebar-footer form {
+        display: flex;
+        width: 100%;
     }
 
     .logout-btn {
         width: 100%;
-        padding: var(--spacing-sm) var(--spacing-md);
+        padding: 0.625rem var(--spacing-md);
         background: var(--danger-color);
         color: white;
         border: none;
@@ -179,10 +194,17 @@
         justify-content: center;
         gap: var(--spacing-sm);
         font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+        box-shadow: var(--shadow-sm);
     }
 
     .logout-btn:hover {
-        background: #dc2626;
+        background: var(--danger-dark);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .logout-btn:active {
+        transform: translateY(0);
     }
 
     .main-content-wrapper {
@@ -222,11 +244,12 @@
         display: flex;
         align-items: center;
         gap: var(--spacing-sm);
-        background: white;
-        padding: var(--spacing-md);
+        background: var(--bg-white);
+        padding: var(--spacing-md) var(--spacing-lg);
         border-radius: var(--border-radius);
         box-shadow: var(--shadow-sm);
         min-width: 0;
+        border: 1px solid var(--border-color);
     }
 
     .profile-avatar {
@@ -250,8 +273,8 @@
     }
 
     .stat-card {
-        background: white;
-        padding: var(--spacing-md);
+        background: var(--bg-white);
+        padding: var(--spacing-lg);
         border-radius: var(--border-radius);
         box-shadow: var(--shadow-sm);
         border: 1px solid var(--border-color);
@@ -260,7 +283,8 @@
 
     .stat-card:hover {
         box-shadow: var(--shadow-md);
-        transform: translateY(-4px);
+        transform: translateY(-3px);
+        border-color: var(--primary-color);
     }
 
     .stat-card-header {
@@ -282,8 +306,8 @@
 
     .stat-icon.primary { background: #e0f2fe; color: var(--primary-color); }
     .stat-icon.success { background: #d1fae5; color: var(--success-color); }
-    .stat-icon.warning { background: #ffffff; color: var(--warning-color); }
-    .stat-icon.danger { background:  #ffffff; color: var(--danger-color); }
+    .stat-icon.warning { background: #fef3c7; color: var(--warning-color); }
+    .stat-icon.danger { background: #fee2e2; color: var(--danger-color); }
 
     .stat-label {
         font-size: clamp(0.625rem, 1.5vw, 0.75rem);
@@ -316,12 +340,17 @@
     }
 
     .card {
-        background: white;
+        background: var(--bg-white);
         border-radius: var(--border-radius);
         box-shadow: var(--shadow-sm);
         border: 1px solid var(--border-color);
         overflow: hidden;
         width: 100%;
+        transition: var(--transition);
+    }
+
+    .card:hover {
+        box-shadow: var(--shadow-md);
     }
 
     .card-header {
@@ -492,6 +521,16 @@
 </style>
 
 <div class="sidebar-wrapper" role="navigation" aria-label="Main Navigation">
+    <div class="sidebar-footer" style="border-bottom: 1px solid var(--border-color); border-top: none;">
+        <form method="post" action="/Account/Logout">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="logout-btn" title="Logout">
+                <span>🚪</span>
+                <span>Logout</span>
+            </button>
+        </form>
+    </div>
+
     <div class="sidebar-header">
         <div class="sidebar-logo">LD</div>
         <div>
@@ -577,15 +616,6 @@
             </a>
         </section>
     </nav>
-
-    <div class="sidebar-footer">
-        <form method="post" action="/Account/Logout" style="display: contents;">
-            <button type="submit" class="logout-btn" title="Logout">
-                <span>🚪</span>
-                <span>Logout</span>
-            </button>
-        </form>
-    </div>
 </div>
 
 <div class="main-content-wrapper">
