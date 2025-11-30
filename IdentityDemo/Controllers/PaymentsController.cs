@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using TenantsManagementApp.Data;
 using TenantsManagementApp.Models;
 using TenantsManagementApp.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TenantsManagementApp.Controllers
 {
+    [Authorize(Roles = "Landlord,Tenant,Admin")]
     public class PaymentsController : Controller
     {
         private readonly ApplicationDbContext _context;

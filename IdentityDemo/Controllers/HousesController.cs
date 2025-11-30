@@ -7,9 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using TenantsManagementApp.Data;
 using TenantsManagementApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TenantsManagementApp.Controllers
 {
+    [Authorize(Roles = "Landlord,Admin")]
     public class HousesController : Controller
     {
         private readonly ApplicationDbContext _context;

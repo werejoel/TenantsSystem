@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TenantsManagementApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8e18235b84b84a59e4afdea274bc071412550c3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6058710816e1c9dc7554b7c7da2afeb2ce368ed4")]
 [assembly: System.Reflection.AssemblyProductAttribute("TenantsManagementApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TenantsManagementApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

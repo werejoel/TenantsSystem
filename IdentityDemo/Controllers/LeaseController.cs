@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TenantsManagementApp.Controllers
 {
-    [Authorize(Roles = "Tenant")]
+    [Authorize(Roles = "Tenant,Landlord,Admin")]
     public class LeaseController : Controller
     {
         public IActionResult RenewLease()

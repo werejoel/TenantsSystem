@@ -12,7 +12,7 @@ using TenantsManagementApp.Models;
 namespace TenantsManagementApp.Controllers
 {
 
-	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin,Landlord")]
 	public class TenantsController : Controller
 	{
 		private readonly ApplicationDbContext _context;

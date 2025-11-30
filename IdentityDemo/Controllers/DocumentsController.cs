@@ -6,7 +6,7 @@ using TenantsManagementApp.ViewModels.TenantsDashboard;
 
 namespace TenantsManagementApp.Controllers
 {
-    [Authorize(Roles = "Tenant")]
+    [Authorize(Roles = "Tenant,Landlord,Admin")]
     public class DocumentsController : Controller
     {
         private readonly ApplicationDbContext _context;

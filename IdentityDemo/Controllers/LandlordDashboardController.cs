@@ -474,23 +474,31 @@ namespace TenantsManagementApp.Controllers
                     .FirstOrDefault();
 
                 if (landlord == null)
+                {
+                    _logger?.LogWarning("Landlord not found in GetPaymentTracking");
                     return NotFound(new { message = "Landlord not found" });
+                }
 
                 var propertyIds = landlord.Houses.Select(h => h.Id).ToList();
+                _logger?.LogInformation($"Found {propertyIds.Count} properties for landlord");
 
                 var payments = _context.Payments
                     .Include(p => p.Tenant)
                         .ThenInclude(t => t.House)
-                    .Where(p => p.Tenant.HouseId.HasValue
+                    .Where(p => p.Tenant != null && p.Tenant.HouseId.HasValue
                         && propertyIds.Contains(p.Tenant.HouseId.Value))
                     .OrderByDescending(p => p.PaymentDate)
                     .Take(50)
-                    .Select(p => new PaymentTrackingViewModel
+                    .ToList();
+
+                _logger?.LogInformation($"Found {payments.Count} payments for landlord");
+
+                var result = payments.Select(p => new PaymentTrackingViewModel
                     {
                         Id = p.Id,
-                        TenantName = p.Tenant.FullName,
-                        UnitNumber = p.Tenant.House != null ? p.Tenant.House.Name : "N/A",
-                        PropertyName = p.Tenant.House != null ? p.Tenant.House.Name : "N/A",
+                        TenantName = p.Tenant != null ? p.Tenant.FullName : "Unknown",
+                        UnitNumber = p.Tenant != null && p.Tenant.House != null ? p.Tenant.House.Name : "N/A",
+                        PropertyName = p.Tenant != null && p.Tenant.House != null ? p.Tenant.House.Name : "N/A",
                         PaymentDate = p.PaymentDate,
                         DueDate = DateTime.Now,
                         Amount = p.AmountPaid,
@@ -501,7 +509,7 @@ namespace TenantsManagementApp.Controllers
                     })
                     .ToList();
 
-                return Json(payments);
+                return Json(result);
             }
             catch (Exception ex)
             {
