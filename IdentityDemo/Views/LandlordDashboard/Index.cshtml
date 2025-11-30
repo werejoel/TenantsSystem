@@ -9,8 +9,8 @@
         --success-color: #10b981;
         --warning-color: #f59e0b;
         --danger-color: #ef4444;
-        --bg-light: #f9fafb;
-        --border-color: #e5e7eb;
+        --bg-light:   #ffffff;
+        --border-color: #ffffff;
         --text-primary: #111827;
         --text-secondary: #6b7280;
         --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -20,6 +20,7 @@
         --spacing-sm: clamp(0.5rem, 1vw, 0.75rem);
         --spacing-md: clamp(0.75rem, 1.5vw, 1rem);
         --spacing-lg: clamp(1rem, 2vw, 1.5rem);
+        --sidebar-width: 260px;
     }
 
     * {
@@ -33,6 +34,161 @@
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         color: var(--text-primary);
         line-height: 1.5;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .sidebar-wrapper {
+        width: var(--sidebar-width);
+        background: white;
+        border-right: 1px solid var(--border-color);
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-y: auto;
+        box-shadow: var(--shadow-sm);
+        z-index: 1000;
+    }
+
+    .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        min-height: 80px;
+    }
+
+    .sidebar-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--primary-color), #ffffff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    .sidebar-title {
+        font-weight: 700;
+        font-size: clamp(0.875rem, 2vw, 1rem);
+        color: var(--text-primary);
+    }
+
+    .sidebar-subtitle {
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        color: var(--text-secondary);
+    }
+
+    .sidebar-nav {
+        padding: var(--spacing-md) 0;
+        list-style: none;
+    }
+
+    .nav-section {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .nav-section-title {
+        padding: 0 var(--spacing-lg);
+        font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: clamp(0.875rem, 2vw, 0.95rem);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .nav-link:hover {
+        background-color: var(--bg-light);
+        color: var(--primary-color);
+    }
+
+    .nav-link.active {
+        color: var(--primary-color);
+        background-color: #ffffff;
+        border-right: 3px solid var(--primary-color);
+    }
+
+    .nav-link.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--primary-color);
+    }
+
+    .nav-icon {
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+
+    .nav-badge {
+        margin-left: auto;
+        background: var(--danger-color);
+        color: white;
+        border-radius: 9999px;
+        padding: 0.125rem 0.5rem;
+        font-size: clamp(0.625rem, 1.5vw, 0.7rem);
+        font-weight: 600;
+    }
+
+    .sidebar-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: var(--spacing-md);
+        border-top: 1px solid var(--border-color);
+        background: white;
+    }
+
+    .logout-btn {
+        width: 100%;
+        padding: var(--spacing-sm) var(--spacing-md);
+        background: var(--danger-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+    }
+
+    .logout-btn:hover {
+        background: #dc2626;
+    }
+
+    .main-content-wrapper {
+        margin-left: var(--sidebar-width);
+        flex: 1;
+        width: calc(100% - var(--sidebar-width));
     }
 
     .dashboard-container {
@@ -77,7 +233,7 @@
         width: clamp(32px, 5vw, 40px);
         height: clamp(32px, 5vw, 40px);
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+        background: linear-gradient(135deg, var(--primary-color), #002244);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -126,8 +282,8 @@
 
     .stat-icon.primary { background: #e0f2fe; color: var(--primary-color); }
     .stat-icon.success { background: #d1fae5; color: var(--success-color); }
-    .stat-icon.warning { background: #fef3c7; color: var(--warning-color); }
-    .stat-icon.danger { background: #fee2e2; color: var(--danger-color); }
+    .stat-icon.warning { background: #ffffff; color: var(--warning-color); }
+    .stat-icon.danger { background:  #ffffff; color: var(--danger-color); }
 
     .stat-label {
         font-size: clamp(0.625rem, 1.5vw, 0.75rem);
@@ -205,7 +361,7 @@
     }
 
     .btn-primary:hover {
-        background: #1d4ed8;
+        background: #002244;
     }
 
     .btn-outline {
@@ -250,8 +406,8 @@
     }
 
     .badge-success { background: #d1fae5; color: #065f46; }
-    .badge-warning { background: #fef3c7; color: #92400e; }
-    .badge-danger { background: #fee2e2; color: #991b1b; }
+    .badge-warning { background: #ffffff; color: #92400e; }
+    .badge-danger { background: #ffffff; color: #991b1b; }
 
     .progress-bar {
         height: 6px;
@@ -297,9 +453,9 @@
         align-items: flex-start;
     }
 
-    .alert-item.warning { background: #fef3c7; border-left: 4px solid var(--warning-color); }
-    .alert-item.danger { background: #fee2e2; border-left: 4px solid var(--danger-color); }
-    .alert-item.info { background: #e0f2fe; border-left: 4px solid var(--primary-color); }
+    .alert-item.warning { background: #ffffff; border-left: 4px solid var(--warning-color); }
+    .alert-item.danger { background: #ffffff; border-left: 4px solid var(--danger-color); }
+    .alert-item.info { background: #ffffff; border-left: 4px solid var(--primary-color); }
 
     .activity-item {
         display: flex;
@@ -335,7 +491,104 @@
     }
 </style>
 
-<div class="dashboard-container">
+<div class="sidebar-wrapper" role="navigation" aria-label="Main Navigation">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">LD</div>
+        <div>
+            <div class="sidebar-title">Landlord</div>
+            <div class="sidebar-subtitle">Property Manager</div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" role="menubar">
+        <!-- Dashboard Section -->
+        <section class="nav-section">
+            <div class="nav-section-title">Main</div>
+            <a href="/LandlordDashboard" class="nav-link active" aria-label="Dashboard">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+        </section>
+
+        <!-- Properties Section -->
+        <section class="nav-section">
+            <div class="nav-section-title">Properties</div>
+            <a href="/Property" class="nav-link" aria-label="Properties">
+                <span class="nav-icon">🏢</span>
+                <span>Properties</span>
+            </a>
+            <a href="/Houses" class="nav-link" aria-label="Houses">
+                <span class="nav-icon">🏠</span>
+                <span>Houses</span>
+            </a>
+        </section>
+
+        <!-- Tenants Section -->
+        <section class="nav-section">
+            <div class="nav-section-title">Tenants</div>
+            <a href="/Tenants" class="nav-link" aria-label="All Tenants">
+                <span class="nav-icon">👥</span>
+                <span>All Tenants</span>
+            </a>
+            <a href="/Lease" class="nav-link" aria-label="Leases">
+                <span class="nav-icon">📄</span>
+                <span>Leases</span>
+            </a>
+        </section>
+
+        <!-- Financial Section -->
+        <section class="nav-section">
+            <div class="nav-section-title">Financial Services</div>
+            <a href="/Payments" class="nav-link" aria-label="Payments">
+                <span class="nav-icon">💳</span>
+                <span>Payments</span>
+            </a>
+            <a href="/Charges" class="nav-link" aria-label="Charges">
+                <span class="nav-icon">💰</span>
+                <span>Charges</span>
+            </a>
+            <a href="/PaymentCharges" class="nav-link" aria-label="Payment Charges">
+                <span class="nav-icon">📊</span>
+                <span>Payment Charges</span>
+            </a>
+        </section>
+
+        <!-- Maintenance Section -->
+        <section class="nav-section">
+            <div class="nav-section-title">Operations</div>
+            <a href="/MaintenanceRequests" class="nav-link" aria-label="Maintenance Requests">
+                <span class="nav-icon">🔧</span>
+                <span>Maintenance</span>
+                <span class="nav-badge" id="maintenanceBadge" style="display:none;">0</span>
+            </a>
+            <a href="/Documents" class="nav-link" aria-label="Documents">
+                <span class="nav-icon">📋</span>
+                <span>Documents</span>
+            </a>
+        </section>
+
+        <!-- Communication Section -->
+        <section class="nav-section">
+            <div class="nav-section-title">Communication</div>
+            <a href="/Notifications" class="nav-link" aria-label="Notifications">
+                <span class="nav-icon">🔔</span>
+                <span>Notifications</span>
+                <span class="nav-badge" id="notificationBadge" style="display:none;">0</span>
+            </a>
+        </section>
+    </nav>
+
+    <div class="sidebar-footer">
+        <form method="post" action="/Account/Logout" style="display: contents;">
+            <button type="submit" class="logout-btn" title="Logout">
+                <span>🚪</span>
+                <span>Logout</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="main-content-wrapper">
     <!-- Header -->
     <header class="dashboard-header" role="banner">
         <div>
@@ -352,7 +605,7 @@
     </header>
     <!-- Debug area for fetch errors -->
     <div id="debugErrors" style="margin-top:0.5rem; color: var(--danger-color); font-size:0.9rem;
-                background:#fff5f5; border:1px solid #fee2e2; padding:0.5rem; border-radius:8px; display:none;
+                background:#fff5f5; border:1px solid #ffffff padding:0.5rem; border-radius:8px; display:none;
                 max-width:100%; overflow:auto;">
         <strong>Dashboard debug:</strong>
         <div id="debugErrorsContent"></div>
@@ -501,11 +754,26 @@
             </div>
         </section>
     </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    // Set active nav link based on current page
+    function activateCurrentNavLink() {
+        const currentPath = window.location.pathname.toLowerCase();
+        $('.nav-link').each(function() {
+            const href = $(this).attr('href').toLowerCase();
+            if (currentPath === href || currentPath.startsWith(href + '/')) {
+                $(this).addClass('active');
+                $(this).siblings().removeClass('active');
+            } else {
+                $(this).removeClass('active');
+            }
+        });
+    }
     $(document).ready(function() {
+        activateCurrentNavLink();
         loadDashboardData();
     });
 
@@ -582,6 +850,16 @@
             $('#occupancyProgress').css('width', `${stats.occupancyRate}%`);
             $('#outstandingBalance').text(`UGX ${stats.outstandingBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`);
             $('#overduePayments').text(stats.overduePayments);
+            
+            // Update maintenance badge
+            if (stats.pendingMaintenanceCount > 0) {
+                $('#maintenanceBadge').text(stats.pendingMaintenanceCount).show();
+            }
+            
+            // Update notification badge
+            if (stats.unreadNotificationCount > 0) {
+                $('#notificationBadge').text(stats.unreadNotificationCount).show();
+            }
             
             const revenueChange = stats.monthlyRevenue > 0 
                 ? ((stats.monthlyRevenue / stats.totalRevenue) * 100).toFixed(1) 
