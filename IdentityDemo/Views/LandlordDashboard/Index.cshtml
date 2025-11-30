@@ -535,7 +535,7 @@
         <div class="sidebar-logo">LD</div>
         <div>
             <div class="sidebar-title">Landlord</div>
-            <div class="sidebar-subtitle">Property Manager</div>
+            <div class="sidebar-subtitle">Management</div>
         </div>
     </div>
 
@@ -552,18 +552,18 @@
         <!-- Properties Section -->
         <section class="nav-section">
             <div class="nav-section-title">Properties</div>
-            <a href="@Url.Action("Index", "Property")" class="nav-link" aria-label="Properties">
+           @*  <a href="@Url.Action("Index", "Property")" class="nav-link" aria-label="Properties">
                 <span class="nav-icon">🏢</span>
                 <span>Properties</span>
-            </a>
+            </a> *@
             <a href="@Url.Action("Index", "Houses")" class="nav-link" aria-label="Houses">
                 <span class="nav-icon">🏠</span>
                 <span>Houses</span>
             </a>
-            <a href="@Url.Action("Index", "Addresses")" class="nav-link" aria-label="Addresses">
+           @*  <a href="@Url.Action("Index", "Addresses")" class="nav-link" aria-label="Addresses">
                 <span class="nav-icon">📍</span>
                 <span>Addresses</span>
-            </a>
+            </a> *@
         </section>
 
         <!-- Tenants Section -->
@@ -573,10 +573,10 @@
                 <span class="nav-icon">👥</span>
                 <span>All Tenants</span>
             </a>
-            <a href="@Url.Action("Index", "Lease")" class="nav-link" aria-label="Leases">
+            @* <a href="@Url.Action("Index", "Lease")" class="nav-link" aria-label="Leases">
                 <span class="nav-icon">📄</span>
                 <span>Leases</span>
-            </a>
+            </a> *@
         </section>
 
         <!-- Financial Section -->
@@ -613,10 +613,10 @@
         <!-- Communication Section -->
         <section class="nav-section">
             <div class="nav-section-title">Communication</div>
-            <a href="@Url.Action("Index", "Communication")" class="nav-link" aria-label="Messages">
+            @* <a href="@Url.Action("Index", "Communication")" class="nav-link" aria-label="Messages">
                 <span class="nav-icon">💬</span>
                 <span>Messages</span>
-            </a>
+            </a> *@
             <a href="@Url.Action("Index", "Notifications")" class="nav-link" aria-label="Notifications">
                 <span class="nav-icon">🔔</span>
                 <span>Notifications</span>
@@ -624,7 +624,7 @@
             </a>
         </section>
 
-        <!-- Administration Section -->
+        @* <!-- Administration Section -->
         <section class="nav-section">
             <div class="nav-section-title">Admin</div>
             <a href="@Url.Action("Index", "Users")" class="nav-link" aria-label="Users">
@@ -639,7 +639,7 @@
                 <span class="nav-icon">✓</span>
                 <span>Claims</span>
             </a>
-        </section>
+        </section> *@
     </nav>
 </div>
 
